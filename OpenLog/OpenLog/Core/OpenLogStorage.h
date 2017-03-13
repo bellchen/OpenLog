@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class OpenLogUser,OpenLogModel;
 @interface OpenLogStorageModel : NSObject
-@property (assign, nonatomic) NSInteger logID;
+@property (assign, nonatomic) NSInteger logId;
 @property (strong, nonatomic) NSString *content;
 @property (assign, nonatomic) NSInteger status;
 @property (assign, nonatomic) NSInteger retry;
@@ -21,7 +21,7 @@
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *md5;
 @property (assign, nonatomic) NSInteger version;
-- (void)encode:(NSDictionary*)dic;
+- (void)encode:(NSMutableDictionary*)dic;
 - (BOOL)decode:(NSDictionary*)dic;
 @end
 
