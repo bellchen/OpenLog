@@ -10,33 +10,12 @@
 #import <net/if.h> // For IFF_LOOPBACK
 #include <net/if_dl.h>
 #import <sys/sysctl.h>
-
 #import <zlib.h>
-
-
-//#import <arpa/inet.h>
-//#import <netdb.h>
-//#include <setjmp.h>
-
-//#import <SystemConfiguration/SystemConfiguration.h>
-//#import <arpa/inet.h> // For AF_INET, etc.
-//#import <ifaddrs.h> // For getifaddrs()
-
-//#import <sys/utsname.h>
-//#include <sys/ioctl.h>
-//#include <sys/types.h>
-//#include <sys/socket.h>
-//#include <netinet/in.h>
-//#include <netdb.h>
-//#include <sys/sockio.h>
-
-//#import <zlib.h>
-//#import <SystemConfiguration/CaptiveNetwork.h>
-//#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-//#import <CoreTelephony/CTCarrier.h>
-//#import <CoreTelephony/CTCall.h>
-//#import <CoreTelephony/CTCallCenter.h>
-//#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
+#import <sys/utsname.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
+#import <AdSupport/ASIdentifierManager.h>//For idfa
 #import "OpenLogStorage.h"
 #import "OpenLog.h"
 #import "OpenLogJsonKit.h"
@@ -44,7 +23,7 @@
 #import "OpenLogModel.h"
 #import "OpenLogReporter.h"
 #import "OpenLogReachability.h"
-//#import "OpenLogUDID.h"
+#import "OpenLogUDID.h"
 @interface OpenLogHelper()
 @property (assign, nonatomic) BOOL openLogEnable;
 @property (strong, nonatomic) OpenLogOnlineConfigure *sdkConfigure;
@@ -75,9 +54,11 @@ static OpenLogHelper *instance = nil;
         return nil;
     }
     self.openLogEnable = YES;
+    self.globalInfo = [[NSMutableDictionary alloc] init];
     [[OpenLogStorage shareInstance] loadConfigure:^(OpenLogOnlineConfigure *cfg) {
         [self loadConfigure:cfg];
     }];
+    [self device];
     return self;
 }
 - (BOOL)checkOpenLogEnable;{
@@ -197,11 +178,92 @@ static OpenLogHelper *instance = nil;
                 if(![reach isReachable]){
                     return;
                 }
-                OpenLogModelPing *pingModel = [[OpenLogReporter shareInstance] ping:pingArray];
+                OpenLogPingModel *pingModel = [[OpenLogReporter shareInstance] ping:pingArray];
                 [[OpenLogStorage shareInstance] storeLog:pingModel complete:nil];
             });
         }
     }
+}
+- (OpenLogDevice*)device{
+    if (!_device) {
+        OpenLogDevice *device = [[OpenLogDevice alloc] init];
+        device.platform = [UIDevice currentDevice].systemName;
+        if (([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)) {
+            NSUUID *ifv = [UIDevice currentDevice].identifierForVendor;
+            device.ifv = ifv;
+        }
+        if ([ASIdentifierManager sharedManager].isAdvertisingTrackingEnabled) {
+            NSUUID *ifa = [ASIdentifierManager sharedManager].advertisingIdentifier;
+            if (ifa) {
+                device.ifa = ifa.UUIDString;
+            }
+        }
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        device.deviceName = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+        device.modelName = [UIDevice currentDevice].model;
+        device.osVersion = [UIDevice currentDevice].systemVersion;
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"] ||
+            [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"] ||
+            [[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/lib/apt"]) {
+            device.jailbroken = YES;
+        }else{
+            device.jailbroken = NO;
+        }
+        device.timezone = [NSTimeZone systemTimeZone].name;
+        
+        CGRect rect = [UIScreen mainScreen].bounds;
+        CGFloat scale = [UIScreen mainScreen].scale;
+        device.resolution = [NSString stringWithFormat:@"%.fx%.f",rect.size.width*scale,rect.size.height*scale];
+        device.deviceid = [OpenLogUDID value];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
+        if (languages && [languages isKindOfClass:[NSArray class]] && languages.count > 0) {
+            device.language = languages[0];
+        }
+        
+        CTCarrier *carrier = [[CTTelephonyNetworkInfo new] subscriberCellularProvider];
+        NSString *mcc = carrier.mobileCountryCode;
+        NSString *mnc = carrier.mobileNetworkCode;
+        device.mccmnc = [mcc stringByAppendingString:mnc];
+        
+        device.appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        if (!device.appVersion) {
+            device.appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+        }
+        if (!device.appVersion) {
+            device.appVersion = @"unknown";
+        }
+        device.sdkVersion = OpenLog_Version;
+        _device = device;
+    }
+    return _device;
+}
+- (OpenLogUser*)user{
+    if (!_user) {
+        _user = [[OpenLogStorage shareInstance] loadUser];
+    }
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval tagTime = _user.tagTime;
+    OpenLogUserType oldUserType = _user.userType;
+    struct tm td, lasttd;
+    localtime_r(&now, &td);
+    localtime_r(&tagTime, &lasttd);
+    if (now > tagTime &&
+        td.tm_yday != lasttd.tm_yday) {
+        _user.userType = OpenLogUserTypeOld;
+    }
+    if ([_user.appVersion compare:_device.appVersion] != NSOrderedSame) {
+        OpenLogUserType tmp = _user.userType;
+        _user.userType = tmp | OpenLogUserTypeUpgrade;
+        _user.appVersion = _device.appVersion;
+    }
+    if (_user.userType != oldUserType) {
+        _user.tagTime = now;
+        [[OpenLogStorage shareInstance] storeUser:_user];
+    }
+    return _user;
 }
 + (NSString*)macAddress;{
     int                 mgmtInfoBase[6];

@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, OpenLogOnlineConfigType) {
 @property (copy, nonatomic) NSString *appKey;
 @property (strong, nonatomic) OpenLogUser *user;
 @property (strong, nonatomic) OpenLogDevice *device;
+@property (strong, nonatomic) NSMutableDictionary *globalInfo;
 + (instancetype)shareInstance;
 - (BOOL)checkOpenLogEnable;
 - (NSString*)appOnlineConfigForKey:(NSString*)key;

@@ -7,22 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+@class OpenLogInterfaceMonitor;
 typedef NS_ENUM(NSInteger, OpenLogUserType) {
-    OpenLogUserTypeNew = 0,
-    OpenLogUserTypeOld,
-    OpenLogUserTypeUpgrade,
+    OpenLogUserTypeNew = 0 << 0,
+    OpenLogUserTypeOld = 1 << 0,
+    OpenLogUserTypeUpgrade = 1 << 1,
 };
 @interface OpenLogUser : NSObject
 @property (copy, nonatomic) NSString *uid;
 @property (assign, nonatomic) OpenLogUserType userType;
 @property (copy, nonatomic) NSString *appVersion;
-@property (assign, nonatomic) NSInteger tagTime;
+@property (assign, nonatomic) NSTimeInterval tagTime;
 @end
 
 @interface OpenLogDevice : NSObject
 @property (copy, nonatomic) NSString *platform;
 @property (copy ,nonatomic) NSString *osVersion;
 @property (copy, nonatomic) NSString *language;
+@property (copy, nonatomic) NSString *resolution;
 @property (copy, nonatomic) NSString *deviceid;
 @property (copy, nonatomic) NSString *mccmnc;
 @property (copy, nonatomic) NSString *timezone;
@@ -36,7 +38,7 @@ typedef NS_ENUM(NSInteger, OpenLogUserType) {
 @property (copy, nonatomic) NSString *wifi;
 @end
 
-@interface OpenLogPingModel : NSObject
+@interface OpenLogPing : NSObject
 @property (copy, nonatomic) NSString *domain;//ping 的域名
 @property (assign, nonatomic) NSInteger port;//ping 的端口
 @property (copy, nonatomic) NSString *ip;//ping 域名对应的IP
@@ -72,36 +74,42 @@ typedef NS_ENUM(NSInteger, OpenLogModelType) {
 - (NSString*)toJsonString;
 @end
 
-@interface OpenLogModelSession : OpenLogModel
+@interface OpenLogSessionModel : OpenLogModel
 
 @end
 
-@interface OpenLogModelPageView : OpenLogModel
+@interface OpenLogPageViewModel : OpenLogModel
 @property (assign, nonatomic) NSInteger duration;
 @property (copy, nonatomic) NSString *pageName;
 @property (copy, nonatomic) NSString *refer;
 @end
 
-@interface OpenLogModelError : OpenLogModel
+typedef NS_ENUM(NSInteger, OpenLogErrorModelType) {
+    OpenLogErrorModelTypeCommon = 0,
+    OpenLogErrorModelTypeCaughtException,
+    OpenLogErrorModelTypeUncaughtException,
+};
+@interface OpenLogErrorModel : OpenLogModel
 @property (copy, nonatomic) NSString *error;
+@property (assign, nonatomic) OpenLogErrorModelType errorType;
 @end
 
-@interface OpenLogModelCustom : OpenLogModel
+@interface OpenLogCustomModel : OpenLogModel
 @property (copy, nonatomic) NSString *logName;
 @property (strong, nonatomic) NSArray *args;
-@property (strong, nonatomic) NSDictionary *attr;
+@property (strong, nonatomic) NSDictionary *kvs;
 @property (assign, nonatomic) NSInteger duration;
 @end
 
-@interface OpenLogModelAddition : OpenLogModel
-
+@interface OpenLogAdditionModel : OpenLogModel
+@property (strong, nonatomic) NSDictionary *info;
 @end
 
-@interface OpenLogModelMonitor : OpenLogModel
-
+@interface OpenLogMonitorModel : OpenLogModel
+@property (strong, nonatomic) OpenLogInterfaceMonitor *monitor;
 @end
 
-@interface OpenLogModelPing : OpenLogModel
+@interface OpenLogPingModel : OpenLogModel
 @property (copy, nonatomic) NSString *ping;
 @property (copy, nonatomic) NSString *sim;
 @property (copy, nonatomic) NSString *network;

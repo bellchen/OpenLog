@@ -94,11 +94,11 @@ static int const kOpenUDIDRedundancySlots = 100;
 // It will return the null udid (forty zeros) if the user has somehow opted this app out (this is subject to 3rd party implementation)
 // Otherwise, it will register the current app and return the OpenUDID
 //
-+ (NSString*) value {
++ (NSString*)value {
     return [self valueWithError:nil];
 }
 
-+ (NSString*) valueWithError:(NSError **)error {
++ (NSString*)valueWithError:(NSError **)error {
     
     if (kOpenUDIDSessionCache!=nil) {
         if (error!=nil)
