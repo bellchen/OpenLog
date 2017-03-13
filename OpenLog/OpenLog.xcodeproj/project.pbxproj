@@ -1,0 +1,372 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F8BDDBA1E71990400683324 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8BDDB91E71990400683324 /* SystemConfiguration.framework */; };
+		6F985B921E70698D00CCDBE0 /* OpenLogHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */; };
+		6F985B931E70698D00CCDBE0 /* OpenLogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */; };
+		6F985B961E7069FA00CCDBE0 /* OpenLogStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F985B941E7069FA00CCDBE0 /* OpenLogStorage.h */; };
+		6F985B971E7069FA00CCDBE0 /* OpenLogStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F985B951E7069FA00CCDBE0 /* OpenLogStorage.m */; };
+		6F985B9A1E706B3800CCDBE0 /* OpenLogReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F985B981E706B3800CCDBE0 /* OpenLogReporter.h */; };
+		6F985B9B1E706B3800CCDBE0 /* OpenLogReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F985B991E706B3800CCDBE0 /* OpenLogReporter.m */; };
+		6FE09D111E7049680098C28D /* OpenLogUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE09D0F1E7049680098C28D /* OpenLogUDID.h */; };
+		6FE09D121E7049680098C28D /* OpenLogUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE09D101E7049680098C28D /* OpenLogUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6FE09D1D1E705DAB0098C28D /* OpenLogModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE09D1B1E705DAB0098C28D /* OpenLogModel.h */; };
+		6FE09D1E1E705DAB0098C28D /* OpenLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE09D1C1E705DAB0098C28D /* OpenLogModel.m */; };
+		6FFDB0461E6F323A002553F0 /* OpenLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFDB0441E6F323A002553F0 /* OpenLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FFDB0471E6F323A002553F0 /* OpenLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB0451E6F323A002553F0 /* OpenLog.m */; };
+		6FFDB0501E703FFF002553F0 /* OpenLogJsonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFDB04E1E703FFF002553F0 /* OpenLogJsonKit.h */; };
+		6FFDB0511E703FFF002553F0 /* OpenLogJsonKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB04F1E703FFF002553F0 /* OpenLogJsonKit.m */; };
+		6FFDB0551E7042BD002553F0 /* OpenLogReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFDB0531E7042BD002553F0 /* OpenLogReachability.h */; };
+		6FFDB0561E7042BD002553F0 /* OpenLogReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB0541E7042BD002553F0 /* OpenLogReachability.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FFDB00B1E6F0649002553F0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6F8BDDB91E71990400683324 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogHelper.h; sourceTree = "<group>"; };
+		6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogHelper.m; sourceTree = "<group>"; };
+		6F985B941E7069FA00CCDBE0 /* OpenLogStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogStorage.h; sourceTree = "<group>"; };
+		6F985B951E7069FA00CCDBE0 /* OpenLogStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogStorage.m; sourceTree = "<group>"; };
+		6F985B981E706B3800CCDBE0 /* OpenLogReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogReporter.h; sourceTree = "<group>"; };
+		6F985B991E706B3800CCDBE0 /* OpenLogReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogReporter.m; sourceTree = "<group>"; };
+		6FE09D0F1E7049680098C28D /* OpenLogUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogUDID.h; sourceTree = "<group>"; };
+		6FE09D101E7049680098C28D /* OpenLogUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogUDID.m; sourceTree = "<group>"; };
+		6FE09D1B1E705DAB0098C28D /* OpenLogModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogModel.h; sourceTree = "<group>"; };
+		6FE09D1C1E705DAB0098C28D /* OpenLogModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogModel.m; sourceTree = "<group>"; };
+		6FFDB00D1E6F0649002553F0 /* libOpenLog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOpenLog.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FFDB0441E6F323A002553F0 /* OpenLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLog.h; sourceTree = "<group>"; };
+		6FFDB0451E6F323A002553F0 /* OpenLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLog.m; sourceTree = "<group>"; };
+		6FFDB04E1E703FFF002553F0 /* OpenLogJsonKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogJsonKit.h; sourceTree = "<group>"; };
+		6FFDB04F1E703FFF002553F0 /* OpenLogJsonKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogJsonKit.m; sourceTree = "<group>"; };
+		6FFDB0531E7042BD002553F0 /* OpenLogReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogReachability.h; sourceTree = "<group>"; };
+		6FFDB0541E7042BD002553F0 /* OpenLogReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogReachability.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FFDB00A1E6F0649002553F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F8BDDBA1E71990400683324 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F8BDDB81E71990400683324 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6F8BDDB91E71990400683324 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6FFDB0041E6F0649002553F0 = {
+			isa = PBXGroup;
+			children = (
+				6FFDB00F1E6F0649002553F0 /* OpenLog */,
+				6FFDB00E1E6F0649002553F0 /* Products */,
+				6F8BDDB81E71990400683324 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6FFDB00E1E6F0649002553F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FFDB00D1E6F0649002553F0 /* libOpenLog.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FFDB00F1E6F0649002553F0 /* OpenLog */ = {
+			isa = PBXGroup;
+			children = (
+				6FFDB0421E6F31D6002553F0 /* Utility */,
+				6FFDB0431E6F31EC002553F0 /* Core */,
+				6FFDB0411E6F31CC002553F0 /* Model */,
+			);
+			path = OpenLog;
+			sourceTree = "<group>";
+		};
+		6FFDB0411E6F31CC002553F0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6FE09D1B1E705DAB0098C28D /* OpenLogModel.h */,
+				6FE09D1C1E705DAB0098C28D /* OpenLogModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6FFDB0421E6F31D6002553F0 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				6FFDB04E1E703FFF002553F0 /* OpenLogJsonKit.h */,
+				6FFDB04F1E703FFF002553F0 /* OpenLogJsonKit.m */,
+				6FFDB0531E7042BD002553F0 /* OpenLogReachability.h */,
+				6FFDB0541E7042BD002553F0 /* OpenLogReachability.m */,
+				6FE09D0F1E7049680098C28D /* OpenLogUDID.h */,
+				6FE09D101E7049680098C28D /* OpenLogUDID.m */,
+				6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */,
+				6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		6FFDB0431E6F31EC002553F0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				6FFDB0441E6F323A002553F0 /* OpenLog.h */,
+				6FFDB0451E6F323A002553F0 /* OpenLog.m */,
+				6F985B941E7069FA00CCDBE0 /* OpenLogStorage.h */,
+				6F985B951E7069FA00CCDBE0 /* OpenLogStorage.m */,
+				6F985B981E706B3800CCDBE0 /* OpenLogReporter.h */,
+				6F985B991E706B3800CCDBE0 /* OpenLogReporter.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6FFDB0191E6F06BF002553F0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFDB0501E703FFF002553F0 /* OpenLogJsonKit.h in Headers */,
+				6FE09D1D1E705DAB0098C28D /* OpenLogModel.h in Headers */,
+				6FE09D111E7049680098C28D /* OpenLogUDID.h in Headers */,
+				6F985B9A1E706B3800CCDBE0 /* OpenLogReporter.h in Headers */,
+				6F985B921E70698D00CCDBE0 /* OpenLogHelper.h in Headers */,
+				6FFDB0551E7042BD002553F0 /* OpenLogReachability.h in Headers */,
+				6FFDB0461E6F323A002553F0 /* OpenLog.h in Headers */,
+				6F985B961E7069FA00CCDBE0 /* OpenLogStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6FFDB00C1E6F0649002553F0 /* OpenLog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FFDB0161E6F0649002553F0 /* Build configuration list for PBXNativeTarget "OpenLog" */;
+			buildPhases = (
+				6FFDB0091E6F0649002553F0 /* Sources */,
+				6FFDB00A1E6F0649002553F0 /* Frameworks */,
+				6FFDB00B1E6F0649002553F0 /* CopyFiles */,
+				6FFDB0191E6F06BF002553F0 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenLog;
+			productName = OpenLog;
+			productReference = 6FFDB00D1E6F0649002553F0 /* libOpenLog.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FFDB0051E6F0649002553F0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = OpenLog;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = wentiertong.com;
+				TargetAttributes = {
+					6FFDB00C1E6F0649002553F0 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = FX9DM28Q26;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6FFDB0081E6F0649002553F0 /* Build configuration list for PBXProject "OpenLog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FFDB0041E6F0649002553F0;
+			productRefGroup = 6FFDB00E1E6F0649002553F0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FFDB00C1E6F0649002553F0 /* OpenLog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FFDB0091E6F0649002553F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFDB0471E6F323A002553F0 /* OpenLog.m in Sources */,
+				6FFDB0561E7042BD002553F0 /* OpenLogReachability.m in Sources */,
+				6FE09D1E1E705DAB0098C28D /* OpenLogModel.m in Sources */,
+				6FE09D121E7049680098C28D /* OpenLogUDID.m in Sources */,
+				6F985B971E7069FA00CCDBE0 /* OpenLogStorage.m in Sources */,
+				6FFDB0511E703FFF002553F0 /* OpenLogJsonKit.m in Sources */,
+				6F985B9B1E706B3800CCDBE0 /* OpenLogReporter.m in Sources */,
+				6F985B931E70698D00CCDBE0 /* OpenLogHelper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FFDB0141E6F0649002553F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FFDB0151E6F0649002553F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FFDB0171E6F0649002553F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = FX9DM28Q26;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FFDB0181E6F0649002553F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = FX9DM28Q26;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FFDB0081E6F0649002553F0 /* Build configuration list for PBXProject "OpenLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FFDB0141E6F0649002553F0 /* Debug */,
+				6FFDB0151E6F0649002553F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FFDB0161E6F0649002553F0 /* Build configuration list for PBXNativeTarget "OpenLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FFDB0171E6F0649002553F0 /* Debug */,
+				6FFDB0181E6F0649002553F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FFDB0051E6F0649002553F0 /* Project object */;
+}
