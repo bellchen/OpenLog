@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 @property (copy, nonatomic) NSString *shortAppVersion;//默认统计CFBundleShortVersionString中的版本号（即与AppStore上一致的版本号）
 @property (copy, nonatomic) NSString *channel;//渠道号，默认appstore
 @property (copy, nonatomic) NSString *reportUrl;//post 数据提交的url
+@property (copy, nonatomic) void(^reportBlock)(NSArray<NSString*>*);
 + (instancetype)shareInstance;
 /**
  *  @method setGlobalValue:forKey:

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F58DAD61E78469B000BDB5C /* OpenLogAES128.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F58DAD41E78469B000BDB5C /* OpenLogAES128.h */; };
+		6F58DAD71E78469B000BDB5C /* OpenLogAES128.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58DAD51E78469B000BDB5C /* OpenLogAES128.m */; };
 		6F8BDDBA1E71990400683324 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8BDDB91E71990400683324 /* SystemConfiguration.framework */; };
 		6F985B921E70698D00CCDBE0 /* OpenLogHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */; };
 		6F985B931E70698D00CCDBE0 /* OpenLogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */; };
@@ -39,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F58DAD41E78469B000BDB5C /* OpenLogAES128.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogAES128.h; sourceTree = "<group>"; };
+		6F58DAD51E78469B000BDB5C /* OpenLogAES128.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogAES128.m; sourceTree = "<group>"; };
 		6F8BDDB91E71990400683324 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogHelper.h; sourceTree = "<group>"; };
 		6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogHelper.m; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 				6FE09D101E7049680098C28D /* OpenLogUDID.m */,
 				6F985B901E70698D00CCDBE0 /* OpenLogHelper.h */,
 				6F985B911E70698D00CCDBE0 /* OpenLogHelper.m */,
+				6F58DAD41E78469B000BDB5C /* OpenLogAES128.h */,
+				6F58DAD51E78469B000BDB5C /* OpenLogAES128.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -153,6 +159,7 @@
 				6FFDB0501E703FFF002553F0 /* OpenLogJsonKit.h in Headers */,
 				6FE09D1D1E705DAB0098C28D /* OpenLogModel.h in Headers */,
 				6FE09D111E7049680098C28D /* OpenLogUDID.h in Headers */,
+				6F58DAD61E78469B000BDB5C /* OpenLogAES128.h in Headers */,
 				6F985B9A1E706B3800CCDBE0 /* OpenLogReporter.h in Headers */,
 				6F985B921E70698D00CCDBE0 /* OpenLogHelper.h in Headers */,
 				6FFDB0551E7042BD002553F0 /* OpenLogReachability.h in Headers */,
@@ -224,6 +231,7 @@
 				6FFDB0471E6F323A002553F0 /* OpenLog.m in Sources */,
 				6FFDB0561E7042BD002553F0 /* OpenLogReachability.m in Sources */,
 				6FE09D1E1E705DAB0098C28D /* OpenLogModel.m in Sources */,
+				6F58DAD71E78469B000BDB5C /* OpenLogAES128.m in Sources */,
 				6FE09D121E7049680098C28D /* OpenLogUDID.m in Sources */,
 				6F985B971E7069FA00CCDBE0 /* OpenLogStorage.m in Sources */,
 				6FFDB0511E703FFF002553F0 /* OpenLogJsonKit.m in Sources */,

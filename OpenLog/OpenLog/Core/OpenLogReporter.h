@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 @class OpenLogModel,OpenLogPingModel;
 @interface OpenLogReporter : NSObject
-- (void)reportLogs:(NSArray<OpenLogModel*>*)logs complete:(void(^)(BOOL))completeBlock;
+- (void)reportLog:(OpenLogModel*)log complete:(void(^)(BOOL))completeBlock;
+- (void)reportLogs:(NSArray<NSString*>*)logContents complete:(void(^)(BOOL))completeBlock;
 - (OpenLogPingModel*)ping:(NSArray<NSString*>*)urlArray;
 + (instancetype)shareInstance;
 @end
