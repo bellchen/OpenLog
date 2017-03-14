@@ -12,6 +12,7 @@
 #import "OpenLog.h"
 #import "OpenLogModel.h"
 #import "OpenLogHelper.h"
+#import "OpenLogReporter.h"
 @implementation OpenLogStorageModel
 
 @end
@@ -103,10 +104,66 @@ static OpenLogStorage *instance = nil;
 }
 #pragma mark - logs
 - (void)sendCachedLogs:(NSInteger)maxCount{
-    
+    dispatch_async(self.taskQueue, ^{
+        @autoreleasepool {
+            if(![OpenLogConfigure shareInstance].openLogEnable){
+                return;
+            }
+            if(self.numberOfStoredLog == 0){
+                return;
+            }
+            uint32_t reportLogLength = [OpenLogConfigure shareInstance].reportLogLength;
+            if(maxCount > 0 && maxCount < reportLogLength){
+                reportLogLength = maxCount;
+            }
+            NSMutableArray* logs = [NSMutableArray arrayWithCapacity:reportLogLength];
+            [self loadCacheLogs:logs];
+            NSMutableArray* contents = [NSMutableArray arrayWithCapacity:logs.count];
+            NSEnumerator *enumerator = logs.objectEnumerator;
+            OpenLogStorageModel* log;
+            while (log = enumerator.nextObject) {
+                [contents addObject:log.content];
+            }
+            [self updateLogs:logs status:OpenLogStorageStatusSending];
+            [[OpenLogReporter shareInstance] reportLogs:contents complete:^(BOOL success) {
+                if (!success) {
+                    [self updateSendFailedLogs:logs];
+                }else{
+                    [self deleteLogs:logs];
+                    if (maxCount < 0) {
+                        [self sendCachedLogs:-1];
+                    }else if (maxCount > 0 && maxCount > logs.count){
+                        [self sendCachedLogs:(maxCount-logs.count)];
+                    }else if (maxCount > 0 && self.numberOfStoredLog >= maxCount){
+                        [self sendCachedLogs:maxCount];
+                    }
+                }
+            }];
+        }
+    });
 }
 - (void)storeLog:(OpenLogModel *)log complete:(void (^)())completeBlock{
-    
+    dispatch_async(self.taskQueue, ^{
+        @autoreleasepool {
+            if (self.numberOfStoredLog >= [OpenLogConfigure shareInstance].storeLogMax) {
+                [self updateDatabase:"delete from logs where timestamp in (select min(timestamp) from logs)"];
+            }
+            NSString *content = [log toJsonString];
+            if (content.length <= [OpenLogConfigure shareInstance].logLengthMax ||
+                log.type == OpenLogModelTypeError) {
+                sqlite3 * db = self.db;
+                if (db != NULL) {
+                    int ret = [self execute:db preparedLogs:[content cStringUsingEncoding:NSUTF8StringEncoding] status:OpenLogStorageStatusNotSent retry:0 timestamp:log.timestamp];
+                    if (ret == SQLITE_OK) {
+                        self.numberOfStoredLog ++;
+                    }
+                }
+            }
+            if (completeBlock) {
+                completeBlock();
+            }
+        }
+    });
 }
 -(uint32_t)selectCountOfLogs{
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:1];
@@ -197,7 +254,7 @@ static OpenLogStorage *instance = nil;
     });
 }
 
--(void)updateEvents:(NSArray<OpenLogStorageModel*>*)logs status:(OpenLogStorageStatus)status{
+-(void)updateLogs:(NSArray<OpenLogStorageModel*>*)logs status:(OpenLogStorageStatus)status{
     dispatch_async(self.taskQueue, ^{
         NSEnumerator *logsEnumerator = logs.objectEnumerator;
         OpenLogStorageModel* log;
@@ -240,7 +297,7 @@ static OpenLogStorage *instance = nil;
     if(db != NULL){
         int ret = [self executeQuery:db result:result fmt:"select logId,content,status,retry,timestamp from logs where status = %d order by timestamp limit %d",OpenLogStorageStatusNotSent,reportLogLength];
         if(ret == SQLITE_OK && result.count > 0){
-            NSEnumerator *enumerator = [result objectEnumerator];
+            NSEnumerator *enumerator = result.objectEnumerator;
             NSMutableArray* row;
             while (row = enumerator.nextObject) {
                 if(row.count == 5){
@@ -300,10 +357,38 @@ static OpenLogStorage *instance = nil;
 }
 #pragma mark - configure
 - (void)storeConfigure:(OpenLogOnlineConfigure *)onlineConfig{
-    
+    dispatch_async(self.taskQueue, ^{
+        sqlite3* db = self.db;
+        
+        if(db!=NULL){
+            [self execute:db preparedConfig:onlineConfig.type content:[onlineConfig.content cStringUsingEncoding:NSUTF8StringEncoding] md5:[onlineConfig.md5 cStringUsingEncoding:NSUTF8StringEncoding] version:onlineConfig.version];
+        }
+    });
 }
 - (void)loadConfigure:(void (^)(OpenLogOnlineConfigure *))completeBlock{
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:2];
     
+    sqlite3* db = self.db;
+    
+    if(db!=NULL){
+        int ret = [self executeQuery:db result:result fmt:"select type, content, md5,version from config;"];
+        if(ret == SQLITE_OK && result.count > 0){
+            NSEnumerator *enumerator = result.objectEnumerator;
+            NSMutableArray* row;
+            while (row = enumerator.nextObject) {
+                if(row.count == 4){
+                    OpenLogOnlineConfigure* cfg = [[OpenLogOnlineConfigure alloc]init];
+                    cfg.type = [row[0] integerValue];
+                    cfg.content = row[1];
+                    cfg.md5 = row[2];
+                    cfg.version = [row[3] integerValue];
+                    if (completeBlock) {
+                        completeBlock(cfg);
+                    }
+                }
+            }
+        }
+    }
 }
 #pragma mark - other
 - (dispatch_queue_t)taskQueue{
@@ -462,5 +547,67 @@ static int queryCallback(void* data, int n_columns,
         }
         return ret;
     }
+}
+- (int)execute:(sqlite3*)db preparedConfig:(OpenLogOnlineConfigType)type content:(const char*)content md5:(const char*)md5 version:(NSInteger)version{
+    static sqlite3_stmt* sqlite_stmt = NULL;
+    if(db == NULL){
+        return -1;
+    }
+    const char* tail = 0;
+    @synchronized(kLockString){
+        if(sqlite_stmt == NULL){
+            int ret = sqlite3_prepare_v2(db, "replace into config(type, content, md5, version) values(@TYPE, @CONTENT, @MD5, @VERSION)", -1, &sqlite_stmt, &tail);
+            if (ret != SQLITE_OK){
+                NSLog(@"Failed to prepare replace configs");
+                return ret;
+            }
+        }
+        sqlite3_bind_int64(sqlite_stmt, 1, type);
+        sqlite3_bind_text(sqlite_stmt, 2, content, -1, SQLITE_TRANSIENT );
+        sqlite3_bind_text(sqlite_stmt, 3, md5, -1, SQLITE_TRANSIENT );
+        sqlite3_bind_int64(sqlite_stmt, 4, version);
+        int ret = sqlite3_step(sqlite_stmt);
+        if (ret != SQLITE_DONE){
+            sqlite3_finalize(sqlite_stmt);
+            sqlite_stmt = NULL;
+            NSLog(@"Failed to exec satement to insert configs.");
+            return ret;
+        }
+        sqlite3_clear_bindings(sqlite_stmt);
+        sqlite3_reset(sqlite_stmt);
+        return ret;
+    }
+}
+- (int)execute:(sqlite3*)db preparedLogs:(const char*)content status:(OpenLogStorageStatus)status retry:(NSInteger)retry timestamp:(NSInteger)timestamp{
+    static sqlite3_stmt* sqlite_stmt = NULL;
+    if(db == NULL){
+        return -1;
+    }
+    const char* tail = 0;
+    @synchronized(kLockString){
+        if(sqlite_stmt == NULL){
+            int ret = sqlite3_prepare_v2(db, "insert into logs(content, status, retry,timestamp) values(@CONTENT, @STATUS, @RETRY, @TIMESTAMP)", -1, &sqlite_stmt, &tail);
+            if (ret != SQLITE_OK){
+                NSLog(@"Failed to prepare insert events");
+                return ret;
+            }
+        }
+        
+        sqlite3_bind_text(sqlite_stmt, 1, content, -1, SQLITE_TRANSIENT );
+        sqlite3_bind_int64(sqlite_stmt, 2, status);
+        sqlite3_bind_int64(sqlite_stmt, 3, retry);
+        sqlite3_bind_int64(sqlite_stmt, 4, timestamp);
+        int ret = sqlite3_step(sqlite_stmt);
+        if (ret != SQLITE_DONE){
+            sqlite3_finalize(sqlite_stmt);
+            sqlite_stmt = NULL;
+            NSLog(@"Failed to exec satement to insert events.");
+            return ret;
+        }
+        sqlite3_clear_bindings(sqlite_stmt);
+        sqlite3_reset(sqlite_stmt);
+    }
+    
+    return SQLITE_OK;
 }
 @end

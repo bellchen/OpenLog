@@ -8,6 +8,9 @@
 
 #import "OpenLogReporter.h"
 
+@interface OpenLogReporter ()
+@property (assign, nonatomic) dispatch_queue_t taskQueue;
+@end
 @implementation OpenLogReporter
 
 @end
