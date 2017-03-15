@@ -7,11 +7,14 @@
 //
 
 #import "OpenLogReporter.h"
+#import <netdb.h>
+#import <arpa/inet.h>
 #import "OpenLogModel.h"
 #import "OpenLog.h"
 #import "OpenLogAES128.h"
 #import "OpenLogHelper.h"
 #import "OpenLogJsonKit.h"
+#import "OpenLogReachability.h"
 NSString * const kOpenLogReporterErrorDomain = @"openlog.reporter.error";
 @interface OpenLogReporter ()
 @property (assign, nonatomic) dispatch_queue_t taskQueue;
@@ -180,6 +183,97 @@ static OpenLogReporter *instance = nil;
 }
 #pragma mark - ping
 - (OpenLogPingModel*)ping:(NSArray<NSString*>*)urlArray;{
-    return nil;
+    if (!urlArray ||
+        ![urlArray isKindOfClass:[NSArray class]] ||
+        urlArray.count == 0) {
+        return nil;
+    }
+    OpenLogPingModel *pingModel = [[OpenLogPingModel alloc] init];
+    @autoreleasepool {
+        NSMutableString *pingContent = [[NSMutableString alloc] init];
+        [pingContent appendString:@"["];
+        NSUInteger count = urlArray.count;
+        [urlArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            OpenLogPing *ping = [self pingUrl:[NSURL URLWithString:obj]];
+            [pingContent appendString:[ping toJsonString]];
+            if (idx != count -1) {
+                [pingContent appendString:@","];
+            }
+        }];
+        [pingContent appendString:@"]"];
+        pingModel.ping = pingContent;
+        pingModel.sim = [OpenLogHelper shareInstance].device.mccmnc;
+        pingModel.network = [OpenLogHelper networkStatus];
+    }
+    return pingModel;
+}
+static sigjmp_buf jmpbuf;
+static void alarm_func(){
+    siglongjmp(jmpbuf, 1);
+}
+
+static struct hostent *timeGethostbyname(const char *domain, int timeout){
+    struct hostent *ipHostent = NULL;
+    signal(SIGALRM, alarm_func);
+    if(sigsetjmp(jmpbuf, 1) != 0)
+    {
+        alarm(0);//timout
+        signal(SIGALRM, SIG_IGN);
+        return NULL;
+    }
+    alarm(timeout);//setting alarm
+    ipHostent = gethostbyname(domain);
+    signal(SIGALRM, SIG_IGN);
+    return ipHostent;
+}
+- (OpenLogPing*)pingUrl:(NSURL*)url{
+    OpenLogPing *ping = [[OpenLogPing alloc] init];
+    NSString *host = url.host;
+    NSNumber *port = url.port;
+    if (port) {
+        port = @(80);
+    }
+    
+    NSDate *dateBegin = [NSDate date];
+    ping.domain = host;
+    ping.port = port.integerValue;
+    ping.timestamp = dateBegin.timeIntervalSince1970;
+    int socketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0);
+    if (socketFileDescriptor == -1) {
+        ping.success = NO;
+        return ping;
+    }
+    struct hostent * remoteHostEnt = timeGethostbyname([host UTF8String],10);
+    if (remoteHostEnt == NULL) {
+        close(socketFileDescriptor);
+        ping.success = NO;
+        return ping;
+    }
+    struct in_addr **list = (struct in_addr **)remoteHostEnt->h_addr_list;
+    NSString *addressString = [NSString stringWithCString:inet_ntoa(*list[0]) encoding:NSUTF8StringEncoding];
+    
+    struct in_addr * remoteInAddr = (struct in_addr *)remoteHostEnt->h_addr_list[0];
+    
+    struct sockaddr_in socketParameters;
+    socketParameters.sin_family = AF_INET;
+    socketParameters.sin_addr = *remoteInAddr;
+    socketParameters.sin_port = htons([port intValue]);
+    
+    int ret = connect(socketFileDescriptor, (struct sockaddr *) &socketParameters, sizeof(socketParameters));
+    if (ret == -1) {
+        close(socketFileDescriptor);
+
+        NSString * errorInfo = [NSString stringWithFormat:@" >> Failed to connect to %@:%@", host, port];
+        NSLog(@"errorInfo socket. %@",errorInfo);
+        ping.success = NO;
+        return ping;
+    }
+    NSDate *dateEnd = [NSDate date];
+    double timeDiff = [dateEnd timeIntervalSinceDate:dateBegin];
+    ping.ip = addressString;
+    ping.success = YES;
+    ping.duration = timeDiff*100;
+    close(socketFileDescriptor);
+    return ping;
 }
 @end

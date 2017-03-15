@@ -128,19 +128,7 @@
     env[@"dn"] = device.deviceName;
     env[@"mn"] = device.modelName;
     env[@"jb"] = @(device.jailbroken);
-    
-    @autoreleasepool {
-        OpenLogReachability *reach = [OpenLogReachability reachabilityForInternetConnection];
-        if ([reach isReachableViaWiFi]) {
-            env[@"nw"] = @"wifi";
-        }else if ([reach isReachableViaWWAN]){
-            env[@"nw"] = @"cell";
-        }else if ([reach isReachable]) {
-            env[@"nw"] = @"unknown";
-        }else{
-            env[@"nw"] = @"-";
-        }
-    }
+    env[@"nw"] = [OpenLogHelper networkStatus];
     data[@"env"] = env;
     
     @autoreleasepool {
@@ -220,18 +208,7 @@
     
     OpenLogDevice *device = [OpenLogHelper shareInstance].device;
     data[@"nop"] = device.mccmnc;
-    @autoreleasepool {
-        OpenLogReachability *reach = [OpenLogReachability reachabilityForInternetConnection];
-        if ([reach isReachableViaWiFi]) {
-            data[@"nw"] = @"wifi";
-        }else if ([reach isReachableViaWWAN]){
-            data[@"nw"] = @"cell";
-        }else if ([reach isReachable]) {
-            data[@"nw"] = @"unknown";
-        }else{
-            data[@"nw"] = @"-";
-        }
-    }
+    data[@"nw"] = [OpenLogHelper networkStatus];
 }
 @end
 

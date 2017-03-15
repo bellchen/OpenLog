@@ -265,6 +265,20 @@ static OpenLogHelper *instance = nil;
     }
     return _user;
 }
++ (NSString*)networkStatus{
+    @autoreleasepool {
+        OpenLogReachability *reach = [OpenLogReachability reachabilityForInternetConnection];
+        if ([reach isReachableViaWiFi]) {
+            return @"wifi";
+        }else if ([reach isReachableViaWWAN]){
+            return @"cell";
+        }else if ([reach isReachable]) {
+            return @"unknown";
+        }else{
+            return @"-";
+        }
+    }
+}
 + (NSString*)macAddress;{
     int                 mgmtInfoBase[6];
     char                *msgBuffer = NULL;

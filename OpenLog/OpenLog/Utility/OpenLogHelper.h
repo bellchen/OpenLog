@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, OpenLogOnlineConfigType) {
 - (NSString*)appOnlineConfigForKey:(NSString*)key;
 - (void)updateOnlineConfig:(NSDictionary*)onlineConfig;
 - (OpenLogOnlineConfigure*)onlineConfigureForType:(OpenLogOnlineConfigType)type;
++ (NSString*)networkStatus;
 + (NSString*)macAddress;
 + (NSData*)gzip:(nonnull NSData*)data error:(NSError **)error;
 + (NSData*)gunzip:(NSData*)data error:(NSError **)error;
