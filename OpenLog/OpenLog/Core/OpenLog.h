@@ -33,15 +33,17 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 @property (assign, nonatomic) BOOL debug;//debug开关，默认NO
 @property (assign, nonatomic) BOOL openLogEnable;//是否启用openLog，默认YES
 @property (assign, nonatomic) NSInteger sessionTime;//会话时长，单位秒，默认10分钟(600)
+@property (assign, nonatomic) NSInteger sessionLogMax;//会话内日志最大数，默认0，表示不限制
 @property (assign, nonatomic) OpenLogReportStrategy reportStrategy;//上报策略，默认为Launch
 @property (assign, nonatomic) NSInteger storeLogMax;//本地存储的最大日志数，超过将删除最旧数据，默认1024
 @property (assign, nonatomic) NSInteger reportLogLength;//单次上报日志数，默认30
 @property (assign, nonatomic) NSInteger reportRetryMax;//每条日志上报失败重试次数，默认3
 @property (assign, nonatomic) NSInteger batchLength;//上报策略为batch时，批量上报阈值，默认30
 @property (assign, nonatomic) NSInteger periodInterval;//上报策略为PERIOD时发送间隔，单位分钟，默认3分钟
-@property (assign, nonatomic) NSInteger concurrentDurableEventMax;//时长时间最大并发数，默认1024
+@property (assign, nonatomic) NSInteger concurrentDurableLogMax;//时长时间最大并发数，默认1024
 @property (assign, nonatomic) NSInteger logLengthMax;//单条日志最大长度，默认4096
 @property (assign, nonatomic) BOOL smartyEnable;//智能上报开关，wifi下实时上报，非wifi下遵循上报策略，默认YES
+@property (assign, nonatomic) BOOL wifiOnly;//仅wifi下上报数据，非wifi下存储，wifi下遵循上报策略，默认NO
 @property (copy, nonatomic) NSString *shortAppVersion;//默认统计CFBundleShortVersionString中的版本号（即与AppStore上一致的版本号）
 @property (copy, nonatomic) NSString *channel;//渠道号，默认appstore
 @property (copy, nonatomic) NSString *reportUrl;//post 数据提交的url
@@ -59,8 +61,33 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
  *  删除全局自定义字段
  */
 - (void)cleanAllGlobal;
+- (NSString*)onlineConfigForKey:(nonnull NSString*)key default:(nonnull NSString*)value;
 @end
 @interface OpenLog : NSObject
 - (void)startWithAppKey:(nonnull NSString*)appKey;
-- (NSString*)onlineConfigForKey:(nonnull NSString*)key default:(nonnull NSString*)value;
+- (void)startNewSession;
+- (void)endCurrentSession;
+- (void)reportLogs:(NSInteger)maxLogCount;
+
+- (void)onPageBegin:(NSString*)pageName;
+- (void)onPageEnd:(NSString*)pageName;
+- (void)logPage:(NSString*)pageName duration:(NSInteger)duration;
+
+- (void)onError:(NSString*)error;
+- (void)onException:(NSException*)exception;
+
+- (void)onLog:(NSString*)logId args:(NSArray *)array;
+- (void)onLogBegin:(NSString *)logId args:(NSArray *)array;
+- (void)onLogEnd:(NSString *)logId args:(NSArray *)array;
+- (void)onLog:(NSString *)logId args:(NSArray *)array duration:(NSInteger)duration;
+
+- (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs;
+- (void)onLogBegin:(NSString *)logId kvs:(NSDictionary *)kvs;
+- (void)onLogEnd:(NSString *)logId kvs:(NSDictionary *)kvs;
+- (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs duration:(NSInteger)duration;
+
+- (void)onAddition:(NSDictionary*)additionInfo;
+
+- (void)onMonitor:(OpenLogInterfaceMonitor*)monitorModel;
+
 @end

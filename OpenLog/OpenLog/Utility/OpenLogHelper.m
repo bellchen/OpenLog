@@ -58,7 +58,6 @@ static OpenLogHelper *instance = nil;
     [[OpenLogStorage shareInstance] loadConfigure:^(OpenLogOnlineConfigure *cfg) {
         [self loadConfigure:cfg];
     }];
-    [self device];
     return self;
 }
 - (BOOL)checkOpenLogEnable;{

@@ -45,7 +45,7 @@ static OpenLogReporter *instance = nil;
     return self;
 }
 #pragma mark - report log
-- (void)reportLog:(OpenLogModel *)log complete:(void (^)(BOOL))completeBlock{
+- (void)reportLog:(OpenLogModel *)log complete:(void (^)(BOOL success))completeBlock{
     NSString *jsonString = [log toJsonString];
     if (jsonString.length > [OpenLogConfigure shareInstance].reportLogLength &&
         log.type != OpenLogModelTypeError) {
