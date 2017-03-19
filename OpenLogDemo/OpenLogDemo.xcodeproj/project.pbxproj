@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F8E65B21E7EE1C400CD6C69 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B11E7EE1C400CD6C69 /* SecondViewController.m */; };
+		6F8E65B51E7EE1D300CD6C69 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B41E7EE1D300CD6C69 /* ThirdViewController.m */; };
+		6F8E65B81E7EE22F00CD6C69 /* ModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B71E7EE22F00CD6C69 /* ModelViewController.m */; };
 		6FFDB0291E6F0718002553F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB0281E6F0718002553F0 /* main.m */; };
 		6FFDB02C1E6F0718002553F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB02B1E6F0718002553F0 /* AppDelegate.m */; };
 		6FFDB02F1E6F0718002553F0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDB02E1E6F0718002553F0 /* ViewController.m */; };
@@ -17,6 +20,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F8E65B01E7EE1C400CD6C69 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		6F8E65B11E7EE1C400CD6C69 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		6F8E65B31E7EE1D300CD6C69 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
+		6F8E65B41E7EE1D300CD6C69 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		6F8E65B61E7EE22F00CD6C69 /* ModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewController.h; sourceTree = "<group>"; };
+		6F8E65B71E7EE22F00CD6C69 /* ModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelViewController.m; sourceTree = "<group>"; };
 		6FFDB0241E6F0718002553F0 /* OpenLogDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenLogDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FFDB0281E6F0718002553F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6FFDB02A1E6F0718002553F0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -66,6 +75,12 @@
 				6FFDB02B1E6F0718002553F0 /* AppDelegate.m */,
 				6FFDB02D1E6F0718002553F0 /* ViewController.h */,
 				6FFDB02E1E6F0718002553F0 /* ViewController.m */,
+				6F8E65B01E7EE1C400CD6C69 /* SecondViewController.h */,
+				6F8E65B11E7EE1C400CD6C69 /* SecondViewController.m */,
+				6F8E65B31E7EE1D300CD6C69 /* ThirdViewController.h */,
+				6F8E65B41E7EE1D300CD6C69 /* ThirdViewController.m */,
+				6F8E65B61E7EE22F00CD6C69 /* ModelViewController.h */,
+				6F8E65B71E7EE22F00CD6C69 /* ModelViewController.m */,
 				6FFDB0301E6F0718002553F0 /* Main.storyboard */,
 				6FFDB0331E6F0718002553F0 /* Assets.xcassets */,
 				6FFDB0351E6F0718002553F0 /* LaunchScreen.storyboard */,
@@ -163,8 +178,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F8E65B21E7EE1C400CD6C69 /* SecondViewController.m in Sources */,
+				6F8E65B51E7EE1D300CD6C69 /* ThirdViewController.m in Sources */,
 				6FFDB02F1E6F0718002553F0 /* ViewController.m in Sources */,
 				6FFDB02C1E6F0718002553F0 /* AppDelegate.m in Sources */,
+				6F8E65B81E7EE22F00CD6C69 /* ModelViewController.m in Sources */,
 				6FFDB0291E6F0718002553F0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +344,7 @@
 				6FFDB03D1E6F0718002553F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
