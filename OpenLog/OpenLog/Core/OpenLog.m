@@ -280,34 +280,231 @@ static OpenLog *openLogInstance = nil;
     [self reportLog:errorLog];
 }
 
+- (void)onLog:(NSString*)logId;{
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
+}
+- (void)beginLogicOfLogKey:(NSString*)logKey{
+    @synchronized (self.durableLogDictionary) {
+        NSNumber *timestamp = self.durableLogDictionary[logKey];
+        if (!timestamp) {
+            NSLog(@"[Error]duplicate logId :%@",logKey);
+            return;
+        }
+        if (self.durableLogDictionary.count >= [OpenLogConfigure shareInstance].concurrentDurableLogMax) {
+            return;
+        }
+        NSUInteger now = [[NSDate date] timeIntervalSince1970];
+        self.durableLogDictionary[logKey] = @(now);
+    }
+    [self activeSessionID:NO];
+}
+- (void)endLogicOfLogKey:(NSString*)logKey{
+    OpenLogCustomModel *customModel = nil;
+    @synchronized (self.durableLogDictionary) {
+        NSNumber *timestamp = self.durableLogDictionary[logKey];
+        if (!timestamp) {
+            NSLog(@"[Error] should begin page:%@ first",logKey);
+            return;
+        }
+        NSInteger now = [[NSDate date] timeIntervalSince1970];
+        NSInteger duration = now - [timestamp integerValue];
+        if (duration <= 0) {
+            duration = 1;
+        }
+        customModel = [[OpenLogPageViewModel alloc] init];
+        customModel.logName = logKey;
+        customModel.sessionID = [self activeSessionID:NO];
+        customModel.duration = duration;
+        [self.durableLogDictionary removeObjectForKey:logKey];
+    }
+    [self reportLog:customModel];
+}
+- (void)onLogBegin:(NSString*)logId;{
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if ([OpenLogConfigure shareInstance].debug) {
+        NSLog(@"onLogBegin:%@",logId);
+    }
+    [self beginLogicOfLogKey:logId];
+}
+- (void)onLogEnd:(NSString*)logId;{
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    [self endLogicOfLogKey:logId];
+}
+- (void)onLog:(NSString *)logId duration:(NSInteger)duration;{
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (duration == 0) {
+        return [self onLog:logId];
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.duration = duration;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
+}
+
 - (void)onLog:(NSString*)logId args:(NSArray *)array;{
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!array || ![array isKindOfClass:[NSArray class]] || array.count == 0) {
+        return [self onLog:logId];
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.args = array;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
     
 }
 - (void)onLogBegin:(NSString *)logId args:(NSArray *)array;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!array || ![array isKindOfClass:[NSArray class]] || array.count == 0) {
+        return [self onLogBegin:logId];
+    }
+    [self beginLogicOfLogKey:[self customLogId:logId args:array]];
 }
 - (void)onLogEnd:(NSString *)logId args:(NSArray *)array;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!array || ![array isKindOfClass:[NSArray class]] || array.count == 0) {
+        return [self onLogEnd:logId];
+    }
+    [self endLogicOfLogKey:[self customLogId:logId args:array]];
 }
 - (void)onLog:(NSString *)logId args:(NSArray *)array duration:(NSInteger)duration;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!array || ![array isKindOfClass:[NSArray class]] || array.count == 0) {
+        return [self onLog:logId duration:duration];
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.args = array;
+    customModel.duration = duration;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
 }
 
 - (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!kvs || ![kvs isKindOfClass:[NSDictionary class]] || kvs.count == 0) {
+        return [self onLog:logId];
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.kvs = kvs;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
 }
 - (void)onLogBegin:(NSString *)logId kvs:(NSDictionary *)kvs;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!kvs || ![kvs isKindOfClass:[NSDictionary class]] || kvs.count == 0) {
+        return [self onLogBegin:logId];
+    }
+    [self beginLogicOfLogKey:[self customLogId:logId kvs:kvs]];
 }
 - (void)onLogEnd:(NSString *)logId kvs:(NSDictionary *)kvs;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!kvs || ![kvs isKindOfClass:[NSDictionary class]] || kvs.count == 0) {
+        return [self onLogEnd:logId];
+    }
+    [self endLogicOfLogKey:[self customLogId:logId kvs:kvs]];
 }
 - (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs duration:(NSInteger)duration;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!logId || ![logId isKindOfClass:[NSString class]] || logId.length == 0) {
+        NSLog(@"[Error]logId cannot be nil/empty");
+        return;
+    }
+    if (!kvs || ![kvs isKindOfClass:[NSDictionary class]] || kvs.count == 0) {
+        return [self onLog:logId duration:duration];
+    }
+    OpenLogCustomModel *customModel = [[OpenLogCustomModel alloc] init];
+    customModel.logName = logId;
+    customModel.kvs = kvs;
+    customModel.duration = duration;
+    customModel.sessionID = [self activeSessionID:NO];
+    [self reportLog:customModel];
 }
 
 - (void)onAddition:(NSDictionary*)additionInfo;{
-    
+    if (![OpenLogConfigure shareInstance].openLogEnable) {
+        return;
+    }
+    if (!additionInfo || ![additionInfo isKindOfClass:[NSDictionary class]] || additionInfo.count == 0) {
+        return ;
+    }
+    OpenLogAdditionModel *additionModel = [[OpenLogAdditionModel alloc] init];
+    additionModel.info = additionInfo;
+    [self reportLog:additionModel];
 }
 
 - (void)onMonitor:(OpenLogInterfaceMonitor*)monitor;{
@@ -504,7 +701,26 @@ static OpenLog *openLogInstance = nil;
     self.nextDayTimestamp = now  - (td.tm_hour*3600 +  td.tm_min * 60 + td.tm_sec) + 24*3600;
     return (NSInteger)random();
 }
-
+- (NSString*)customLogId:(NSString*)logId args:(NSArray*)args{
+    NSMutableString* key = [NSMutableString stringWithString:logId];
+    [key appendFormat:@"["];
+    [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [key appendFormat:@"%@,", obj];
+    }];
+    [key deleteCharactersInRange:NSMakeRange(key.length-1, 1)];
+    [key appendFormat:@"]"];
+    return key;
+}
+- (NSString*)customLogId:(NSString*)logId kvs:(NSDictionary*)kvs{
+    NSMutableString* key = [NSMutableString stringWithString:logId];
+    [key appendFormat:@"{"];
+    [kvs enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [key appendFormat:@"%@=%@,",key,obj];
+    }];
+    [key deleteCharactersInRange:NSMakeRange(key.length-1, 1)];
+    [key appendFormat:@"}"];
+    return key;
+}
 #pragma mark - lazy init
 - (NSMutableDictionary*)durablePageDictionary{
     if (!_durablePageDictionary) {

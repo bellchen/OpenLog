@@ -215,8 +215,7 @@ static void alarm_func(){
 static struct hostent *timeGethostbyname(const char *domain, int timeout){
     struct hostent *ipHostent = NULL;
     signal(SIGALRM, alarm_func);
-    if(sigsetjmp(jmpbuf, 1) != 0)
-    {
+    if(sigsetjmp(jmpbuf, 1) != 0){
         alarm(0);//timout
         signal(SIGALRM, SIG_IGN);
         return NULL;

@@ -76,6 +76,11 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 - (void)onError:(NSString*)error;
 - (void)onException:(NSException*)exception;
 
+- (void)onLog:(NSString*)logId;
+- (void)onLogBegin:(NSString*)logId;
+- (void)onLogEnd:(NSString*)logId;
+- (void)onLog:(NSString *)logId duration:(NSInteger)duration;
+
 - (void)onLog:(NSString*)logId args:(NSArray *)array;
 - (void)onLogBegin:(NSString *)logId args:(NSArray *)array;
 - (void)onLogEnd:(NSString *)logId args:(NSArray *)array;
