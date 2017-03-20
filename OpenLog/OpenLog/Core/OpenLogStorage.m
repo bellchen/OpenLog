@@ -394,12 +394,6 @@ static OpenLogStorage *instance = nil;
     }
 }
 #pragma mark - other
-//- (dispatch_queue_t)taskQueue{
-//    if (!_taskQueue) {
-//        _taskQueue = dispatch_queue_create("OpenLogStorageQueue", NULL);
-//    }
-//    return _taskQueue;
-//}
 - (void)initDb{
     if(self.db == NULL){
         NSLog(@"NULL database to init table.");

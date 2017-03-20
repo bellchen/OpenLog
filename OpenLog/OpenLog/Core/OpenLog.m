@@ -13,7 +13,7 @@
 #import "OpenLogModel.h"
 #import "OpenLogReachability.h"
 #import <UIKit/UIKit.h>
-NSString * const OpenLog_Version = @"1.0.0";
+NSString * const OpenLog_Version = @"0.1.0";
 @implementation OpenLogInterfaceMonitor
 
 @end
@@ -660,12 +660,7 @@ static OpenLog *openLogInstance = nil;
     }
     [self reportOneLog:log];
 }
-//- (dispatch_queue_t)taskQueue{
-//    if (!_taskQueue) {
-//        _taskQueue = dispatch_queue_create("OpenLogQueue", NULL);
-//    }
-//    return _taskQueue;
-//}
+
 
 - (NSInteger)activeSessionID:(BOOL)forceNewOne{
     return [self activeSessionID:forceNewOne realTime:NO];

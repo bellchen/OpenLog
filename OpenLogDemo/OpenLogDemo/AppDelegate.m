@@ -19,6 +19,7 @@
     [[OpenLogConfigure shareInstance] setReportBlock:^(NSArray<NSString *> * contents) {
         NSLog(@"%@",contents);
     }];
+    [OpenLogConfigure shareInstance].reportUrl = @"report.wentiertong.com";
     [OpenLogConfigure shareInstance].reportStrategy = OpenLogReportStrategyRealTime;
     [[OpenLog shareInstance] startWithAppKey:@"test key"];
     return YES;

@@ -121,6 +121,7 @@ static OpenLogReporter *instance = nil;
         if (completeBlock) {
             completeBlock(nil, nil);
         }
+        return;
     }
     request.URL = [NSURL URLWithString:url];
     request.timeoutInterval = 10;
@@ -184,12 +185,6 @@ static OpenLogReporter *instance = nil;
     }];
     [task resume];
 }
-//- (dispatch_queue_t)taskQueue{
-//    if (!_taskQueue) {
-//        _taskQueue = dispatch_queue_create("OpenLogReporterQueue", NULL);
-//    }
-//    return _taskQueue;
-//}
 #pragma mark - ping
 - (OpenLogPingModel*)ping:(NSArray<NSString*>*)urlArray;{
     if (!urlArray ||

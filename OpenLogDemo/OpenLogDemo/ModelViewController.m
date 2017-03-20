@@ -39,7 +39,7 @@
     [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
 }
 - (IBAction)tapAction:(id)sender {
-    [self.view resignFirstResponder];
+    [self.view endEditing:YES];
 }
 - (IBAction)doneAction:(id)sender {
     OpenLogInterfaceMonitor *monitor = [[OpenLogInterfaceMonitor alloc] init];

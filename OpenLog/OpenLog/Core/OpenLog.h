@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 @property (assign, nonatomic) NSInteger responseSize;//下行数据量，单位字节
 @property (assign, nonatomic) NSInteger duration;//耗时，单位毫秒
 @property (assign, nonatomic) NSInteger code;//应答码
-@property (assign, nonatomic) NSInteger samplingRate;//接口采样率，默认0表示无采样，和1一样
+@property (assign, nonatomic) float samplingRate;//接口采样率，默认0表示无采样，和1一样
 @property (assign, nonatomic) OpenLogInterfaceResultType resultType;//标记返回类型
 @end
 @interface OpenLogConfigure : NSObject
