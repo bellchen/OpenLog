@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "OpenLog.h"
 @interface AppDelegate ()
 
 @end
@@ -16,7 +16,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[OpenLogConfigure shareInstance] setReportBlock:^(NSArray<NSString *> * contents) {
+        NSLog(@"%@",contents);
+    }];
+    [OpenLogConfigure shareInstance].reportStrategy = OpenLogReportStrategyRealTime;
+    [[OpenLog shareInstance] startWithAppKey:@"test key"];
     return YES;
 }
 

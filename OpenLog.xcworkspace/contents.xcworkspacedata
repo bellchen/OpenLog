@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:OpenLogDemo/OpenLogDemo.xcodeproj">
+      location = "group:OpenLog/OpenLog.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OpenLog/OpenLog.xcodeproj">
+      location = "group:OpenLogDemo/OpenLogDemo.xcodeproj">
    </FileRef>
 </Workspace>

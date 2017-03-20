@@ -6,8 +6,8 @@
 //  Copyright © 2017年 wentiertong.com. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface ModelViewController : ViewController
+@interface ModelViewController : UIViewController
 
 @end

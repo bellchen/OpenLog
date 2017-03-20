@@ -23,7 +23,7 @@ static OpenLogConfigure *openLogConfigureInstance = nil;
 + (instancetype)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        openLogConfigureInstance = [[self alloc] init];
+        openLogConfigureInstance = [super allocWithZone:zone];
     });
     return openLogConfigureInstance;
 }
@@ -77,8 +77,10 @@ static OpenLogConfigure *openLogConfigureInstance = nil;
 }
 @end
 static NSString* kOpenLogLastSendTimestamp = @"OpenLogLastSendTimestamp";
-@interface OpenLog ()
-@property (strong, nonatomic) dispatch_queue_t taskQueue;
+@interface OpenLog (){
+    dispatch_queue_t taskQueue;
+}
+//@property (strong, nonatomic) dispatch_queue_t taskQueue;
 @property (strong, nonatomic) NSMutableDictionary *durablePageDictionary;
 @property (strong, nonatomic) NSMutableDictionary *durableLogDictionary;
 @property (strong, nonatomic) NSMutableArray<OpenLogModel*> *cachedLogs;
@@ -96,7 +98,7 @@ static OpenLog *openLogInstance = nil;
 + (instancetype)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        openLogInstance = [[self alloc] init];
+        openLogInstance = [super allocWithZone:zone];
     });
     return openLogInstance;
 }
@@ -114,6 +116,7 @@ static OpenLog *openLogInstance = nil;
     if (!self) {
         return nil;
     }
+    taskQueue = dispatch_queue_create("OpenLogQueue", NULL);
     [[OpenLogHelper shareInstance] device];
     [[OpenLogHelper shareInstance] user];
     [[OpenLogStorage shareInstance] start];
@@ -187,7 +190,7 @@ static OpenLog *openLogInstance = nil;
     }
     @synchronized (self.durablePageDictionary) {
         NSNumber * timestamp = self.durablePageDictionary[pageName];
-        if (!timestamp) {
+        if (timestamp) {
             NSLog(@"[Error]duplicate page :%@",pageName);
             return;
         }
@@ -296,7 +299,7 @@ static OpenLog *openLogInstance = nil;
 - (void)beginLogicOfLogKey:(NSString*)logKey{
     @synchronized (self.durableLogDictionary) {
         NSNumber *timestamp = self.durableLogDictionary[logKey];
-        if (!timestamp) {
+        if (timestamp) {
             NSLog(@"[Error]duplicate logId :%@",logKey);
             return;
         }
@@ -321,7 +324,7 @@ static OpenLog *openLogInstance = nil;
         if (duration <= 0) {
             duration = 1;
         }
-        customModel = [[OpenLogPageViewModel alloc] init];
+        customModel = [[OpenLogCustomModel alloc] init];
         customModel.logName = logKey;
         customModel.sessionID = [self activeSessionID:NO];
         customModel.duration = duration;
@@ -561,12 +564,12 @@ static OpenLog *openLogInstance = nil;
     if ([OpenLogConfigure shareInstance].sessionLogMax > 0 &&
         [OpenLogConfigure shareInstance].sessionLogMax <= self.sessionLogCount) {
         if ([OpenLogConfigure shareInstance].debug) {
-            NSLog(@"[Warn]session:%@ has too many log",self.sessionID);
+            NSLog(@"[Warn]session:%zd has too many log",self.sessionID);
         }
         return;
     }
     self.sessionLogCount ++;
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         if (![OpenLogConfigure shareInstance].openLogEnable) {
             return ;
         }
@@ -657,12 +660,12 @@ static OpenLog *openLogInstance = nil;
     }
     [self reportOneLog:log];
 }
-- (dispatch_queue_t)taskQueue{
-    if (!_taskQueue) {
-        _taskQueue = dispatch_queue_create("OpenLogQueue", NULL);
-    }
-    return _taskQueue;
-}
+//- (dispatch_queue_t)taskQueue{
+//    if (!_taskQueue) {
+//        _taskQueue = dispatch_queue_create("OpenLogQueue", NULL);
+//    }
+//    return _taskQueue;
+//}
 
 - (NSInteger)activeSessionID:(BOOL)forceNewOne{
     return [self activeSessionID:forceNewOne realTime:NO];

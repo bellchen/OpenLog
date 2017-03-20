@@ -6,8 +6,8 @@
 //  Copyright © 2017年 wentiertong.com. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface SecondViewController : ViewController
+@interface SecondViewController : UIViewController
 
 @end

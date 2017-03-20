@@ -39,7 +39,7 @@
 
 @end
 @implementation OpenLogModel
-
+@dynamic type;
 - (instancetype)init{
     self = [super init];
     if (self) {
@@ -130,6 +130,7 @@
     env[@"jb"] = @(device.jailbroken);
     env[@"nw"] = [OpenLogHelper networkStatus];
     data[@"env"] = env;
+    data[@"ut"] = @(user.userType);
     
     @autoreleasepool {
         NSMutableDictionary* cfg = [[NSMutableDictionary alloc]init];

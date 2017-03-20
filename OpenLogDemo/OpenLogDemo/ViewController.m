@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "OpenLog.h"
 @interface ViewController ()
 
 @end
@@ -16,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[OpenLog shareInstance] startWithAppKey:@"aa"];
 }
 
 
@@ -24,5 +26,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[OpenLog shareInstance] onPageBegin:NSStringFromClass([self class])];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
+}
 @end

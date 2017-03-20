@@ -7,7 +7,7 @@
 //
 
 #import "SecondViewController.h"
-
+#import "OpenLog.h"
 @interface SecondViewController ()
 
 @end
@@ -24,6 +24,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[OpenLog shareInstance] onPageBegin:NSStringFromClass([self class])];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
+}
 /*
 #pragma mark - Navigation
 

@@ -11,7 +11,6 @@
 @implementation NSObject (OpenLogJson)
 
 - (NSString*)jsonString{
-    NSString *jsonString = nil;
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
     if (jsonData) {

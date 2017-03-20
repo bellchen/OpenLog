@@ -23,7 +23,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b3R-1U-dL7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-686" y="-9"/>
+            <point key="canvasLocation" x="-636" y="-9"/>
         </scene>
         <!--首页-->
         <scene sceneID="F1g-8r-td0">
@@ -37,11 +37,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                <integer key="value" value="3"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" id="ZL6-lM-7hs">
                         <barButtonItem key="leftBarButtonItem" title="显示" id="Pfe-w5-GIq">
@@ -79,10 +74,14 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="接口监控" id="Uan-cZ-67x">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="Cfj-4Y-mDl"/>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cfj-4Y-mDl">
+                                            <connections>
+                                                <action selector="cancelAction:" destination="NgX-uZ-9tl" id="ggg-DC-X9d"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="OWG-3j-acy">
                                             <connections>
-                                                <action selector="dusmissAction:" destination="NgX-uZ-9tl" id="JAI-jw-Fwg"/>
+                                                <action selector="doneAction:" destination="NgX-uZ-9tl" id="tKE-1X-yZs"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -177,6 +176,7 @@
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="S0A-0G-2n8" firstAttribute="leading" secondItem="49f-3W-QwT" secondAttribute="trailing" constant="10" id="0a1-ai-rGk"/>
                             <constraint firstItem="49f-3W-QwT" firstAttribute="top" secondItem="TY2-DM-ZGZ" secondAttribute="bottom" constant="24" id="0fK-g7-Pml"/>
@@ -229,11 +229,28 @@
                             <constraint firstItem="V6A-6q-2Ow" firstAttribute="leading" secondItem="7KO-dK-3DA" secondAttribute="leading" id="xX8-YK-YqO"/>
                             <constraint firstItem="pkk-hh-TJE" firstAttribute="leading" secondItem="TY2-DM-ZGZ" secondAttribute="trailing" constant="10" id="zqo-Wq-sns"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="D7Q-uX-bRN" appends="YES" id="k5R-80-sSC"/>
+                        </connections>
                     </view>
+                    <connections>
+                        <outlet property="codeTextField" destination="w5h-Hp-sIe" id="JGA-ot-6eK"/>
+                        <outlet property="durationTextField" destination="hjQ-hu-O3l" id="KLW-Aq-ClJ"/>
+                        <outlet property="interfaceTextField" destination="4as-8M-HFp" id="g8n-nR-Iiw"/>
+                        <outlet property="rateSlider" destination="pkk-hh-TJE" id="dhe-Yk-X5Z"/>
+                        <outlet property="requestTextField" destination="N0a-Ac-6nM" id="tIp-hI-BTs"/>
+                        <outlet property="responseTextField" destination="bQU-GM-hng" id="pvo-3d-WqA"/>
+                        <outlet property="resultSegmentedControl" destination="S0A-0G-2n8" id="imp-Oz-9jE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N9g-u5-9S6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="D7Q-uX-bRN">
+                    <connections>
+                        <action selector="tapAction:" destination="NgX-uZ-9tl" id="8A4-M6-7EI"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="245.59999999999999" y="-689.5052473763119"/>
+            <point key="canvasLocation" x="153" y="-811"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="IQz-i7-a7K">

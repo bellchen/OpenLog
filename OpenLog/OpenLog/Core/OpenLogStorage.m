@@ -60,8 +60,10 @@ static const char* kCreateConfigTable = "create table if not exists config(type 
 static NSInteger kCurrentSDKDatabaseVersion = 1;
 static NSString *kSDKDatabaseVersionKey = @"__OpenLogSDKDatabaseVersion__";
 static NSString *kLockString = @"__OpenLogLock__";
-@interface OpenLogStorage ()
-@property (assign, nonatomic) dispatch_queue_t taskQueue;
+@interface OpenLogStorage (){
+    dispatch_queue_t taskQueue;
+}
+//@property (assign, nonatomic) dispatch_queue_t taskQueue;
 @property (assign, nonatomic) sqlite3* db;
 @property (assign, nonatomic) NSInteger numberOfStoredLog;
 @end
@@ -70,7 +72,7 @@ static OpenLogStorage *instance = nil;
 + (instancetype)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
+        instance = [super allocWithZone:zone];
     });
     return instance;
 }
@@ -88,13 +90,14 @@ static OpenLogStorage *instance = nil;
     if (!self) {
         return nil;
     }
+    taskQueue = dispatch_queue_create("OpenLogStorageQueue", NULL);
     [self initDb];
     return self;
 }
 - (void)start{
     if(self.db != NULL){
-        dispatch_async(self.taskQueue, ^{
-            [self updateDatabase:"update logs set status=%d  where status = %d", OpenLogStorageStatusNotSent, OpenLogStorageStatusSending];
+        dispatch_async(taskQueue, ^{
+            [self updateDatabase:[NSString stringWithFormat:@"update logs set status=%d  where status = %d", OpenLogStorageStatusNotSent, OpenLogStorageStatusSending]];
             self.numberOfStoredLog = [self selectCountOfLogs];
         });
     }
@@ -104,7 +107,7 @@ static OpenLogStorage *instance = nil;
 }
 #pragma mark - logs
 - (void)sendCachedLogs:(NSInteger)maxCount{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         @autoreleasepool {
             if(![OpenLogConfigure shareInstance].openLogEnable){
                 return;
@@ -143,10 +146,10 @@ static OpenLogStorage *instance = nil;
     });
 }
 - (void)storeLog:(OpenLogModel *)log complete:(void (^)())completeBlock{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         @autoreleasepool {
             if (self.numberOfStoredLog >= [OpenLogConfigure shareInstance].storeLogMax) {
-                [self updateDatabase:"delete from logs where timestamp in (select min(timestamp) from logs)"];
+                [self updateDatabase:@"delete from logs where timestamp in (select min(timestamp) from logs)"];
             }
             NSString *content = [log toJsonString];
             if (content.length <= [OpenLogConfigure shareInstance].logLengthMax ||
@@ -188,17 +191,17 @@ static OpenLogStorage *instance = nil;
     return 0;
 }
 - (void)deleteLogs:(NSArray<OpenLogStorageModel*>*)logs{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         NSEnumerator *logsEnumerator = logs.objectEnumerator;
         OpenLogStorageModel* log;
         BOOL useTransaction = logs.count > 1;
         BOOL success = FALSE;
         @try{
             if(useTransaction){
-                [self updateDatabase:"BEGIN TRANSACTION"];
+                [self updateDatabase:@"BEGIN TRANSACTION"];
             }
             while (log = logsEnumerator.nextObject) {
-                int ret = [self updateDatabase:"delete from logs where logId = %d", log.logId];
+                int ret = [self updateDatabase:[NSString stringWithFormat:@"delete from logs where logId = %d", log.logId]];
                 if(ret != SQLITE_OK){
                     success = FALSE;
                     break;
@@ -208,9 +211,9 @@ static OpenLogStorage *instance = nil;
         }@finally {
             if(useTransaction){
                 if(success){
-                    [self updateDatabase:"END TRANSACTION"];
+                    [self updateDatabase:@"END TRANSACTION"];
                 }else{
-                    [self updateDatabase:"ROLLBACK"];
+                    [self updateDatabase:@"ROLLBACK"];
                 }
             }
         }
@@ -218,22 +221,22 @@ static OpenLogStorage *instance = nil;
     });
 }
 -(void)updateSendFailedLogs:(NSArray<OpenLogStorageModel*>*)logs{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         NSEnumerator *logsEnumerator = logs.objectEnumerator;
         OpenLogStorageModel* log;
         BOOL useTransaction = logs > 1;
         BOOL success = FALSE;
         @try{
             if(useTransaction){
-                [self updateDatabase:"BEGIN TRANSACTION"];
+                [self updateDatabase:@"BEGIN TRANSACTION"];
             }
             while (log = logsEnumerator.nextObject) {
                 log.retry = log.retry +1;
                 int ret = -1;
                 if(log.retry >= [[OpenLogConfigure shareInstance] reportRetryMax]){
-                    ret = [self updateDatabase:"delete from logs where logId = %d", log.logId];
+                    ret = [self updateDatabase:[NSString stringWithFormat:@"delete from logs where logId = %d", log.logId]];
                 }else{
-                    ret = [self updateDatabase:"update logs set status=%d,retry=%d where logId = %d", OpenLogStorageStatusNotSent,log.retry, log.logId];
+                    ret = [self updateDatabase:[NSString stringWithFormat:@"update logs set status=%d,retry=%d where logId = %d", OpenLogStorageStatusNotSent,log.retry, log.logId]];
                 }
                 if(ret != SQLITE_OK){
                     success = FALSE;
@@ -244,9 +247,9 @@ static OpenLogStorage *instance = nil;
         }@finally {
             if(useTransaction){
                 if(success){
-                    [self updateDatabase:"END TRANSACTION"];
+                    [self updateDatabase:@"END TRANSACTION"];
                 }else{
-                    [self updateDatabase:"ROLLBACK"];
+                    [self updateDatabase:@"ROLLBACK"];
                 }
             }
         }
@@ -255,18 +258,18 @@ static OpenLogStorage *instance = nil;
 }
 
 -(void)updateLogs:(NSArray<OpenLogStorageModel*>*)logs status:(OpenLogStorageStatus)status{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         NSEnumerator *logsEnumerator = logs.objectEnumerator;
         OpenLogStorageModel* log;
         BOOL useTransaction = logs.count > 1;
         BOOL success = FALSE;
         @try{
             if(useTransaction){
-                [self updateDatabase:"BEGIN TRANSACTION"];
+                [self updateDatabase:@"BEGIN TRANSACTION"];
             }
             int ret = -1;
             while (log = logsEnumerator.nextObject) {
-                ret = [self updateDatabase:"update logs set status = %d where logId = %d", status,log.logId];
+                ret = [self updateDatabase:[NSString stringWithFormat:@"update logs set status = %d where logId = %d", status,log.logId]];
                 if(ret != SQLITE_OK){
                     success = FALSE;
                     break;
@@ -276,9 +279,9 @@ static OpenLogStorage *instance = nil;
         }@finally {
             if(useTransaction){
                 if(success){
-                    [self updateDatabase:"END TRANSACTION"];
+                    [self updateDatabase:@"END TRANSACTION"];
                 }else{
-                    [self updateDatabase:"ROLLBACK"];
+                    [self updateDatabase:@"ROLLBACK"];
                 }
             }
         }
@@ -318,13 +321,13 @@ static OpenLogStorage *instance = nil;
     if (!user) {
         return;
     }
-    dispatch_async(self.taskQueue, ^{
-        [self updateDatabase:"update user set userType=%d, appVersion='%s', tagTime=%u where uid='%s'",user.userType,  [user.appVersion cStringUsingEncoding:NSUTF8StringEncoding ],  user.tagTime,[user.uid cStringUsingEncoding:NSUTF8StringEncoding]];
+    dispatch_async(taskQueue, ^{
+        [self updateDatabase:[NSString stringWithFormat:@"update user set userType=%ld, appVersion='%@', tagTime=%ld where uid='%@'",(long)user.userType,  user.appVersion,  (long)user.tagTime,user.uid]];
     });
 }
 - (OpenLogUser*)loadUser{
     __block OpenLogUser* user = nil;
-    dispatch_sync(self.taskQueue, ^{//同步获取user
+    dispatch_sync(taskQueue, ^{//同步获取user
         NSMutableArray* result = [NSMutableArray arrayWithCapacity:1];
         
         sqlite3* db = self.db;
@@ -338,7 +341,7 @@ static OpenLogStorage *instance = nil;
                     user.userType = OpenLogUserTypeNew;
                     user.appVersion = [OpenLogHelper shareInstance].device.appVersion;
                     user.tagTime = [[NSDate date] timeIntervalSince1970];
-                    [self updateDatabase:"insert into user values('%s', %u, '%s', %u)", [user.uid cStringUsingEncoding:NSUTF8StringEncoding],user.userType, [user.appVersion cStringUsingEncoding:NSUTF8StringEncoding ],  user.tagTime];
+                    [self updateDatabase:[NSString stringWithFormat:@"insert into user values('%s', %u, '%s', %u)", [user.uid cStringUsingEncoding:NSUTF8StringEncoding],user.userType, [user.appVersion cStringUsingEncoding:NSUTF8StringEncoding ],  user.tagTime]];
                 }
                 if(result.count == 1){
                     NSMutableArray* row = result.firstObject;
@@ -357,7 +360,7 @@ static OpenLogStorage *instance = nil;
 }
 #pragma mark - configure
 - (void)storeConfigure:(OpenLogOnlineConfigure *)onlineConfig{
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         sqlite3* db = self.db;
         
         if(db!=NULL){
@@ -391,12 +394,12 @@ static OpenLogStorage *instance = nil;
     }
 }
 #pragma mark - other
-- (dispatch_queue_t)taskQueue{
-    if (!_taskQueue) {
-        _taskQueue = dispatch_queue_create("OpenLogStorageQueue", NULL);
-    }
-    return _taskQueue;
-}
+//- (dispatch_queue_t)taskQueue{
+//    if (!_taskQueue) {
+//        _taskQueue = dispatch_queue_create("OpenLogStorageQueue", NULL);
+//    }
+//    return _taskQueue;
+//}
 - (void)initDb{
     if(self.db == NULL){
         NSLog(@"NULL database to init table.");
@@ -458,17 +461,12 @@ static OpenLogStorage *instance = nil;
         _db = nil;
     }
 }
--(int)updateDatabase:(const char*) fmt, ...{
-    va_list args;
-    va_start(args, fmt);
-    char szSQL[1024];
-    vsnprintf(szSQL, sizeof(szSQL) - 1, fmt, args);
-    va_end(args);
+-(int)updateDatabase:(NSString*)sql{
     
     sqlite3* db = self.db;
     
     if(db != NULL){
-        int ret = [self executeUpdate:db sql:szSQL];
+        int ret = [self executeUpdate:db sql:[sql UTF8String]];
         if(ret == SQLITE_CORRUPT){
             [self deleteDB];
             [self initDb];

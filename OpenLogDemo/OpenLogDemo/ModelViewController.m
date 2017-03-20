@@ -7,8 +7,15 @@
 //
 
 #import "ModelViewController.h"
-
+#import "OpenLog.h"
 @interface ModelViewController ()
+@property (strong, nonatomic) IBOutlet UITextField *interfaceTextField;
+@property (strong, nonatomic) IBOutlet UITextField *requestTextField;
+@property (strong, nonatomic) IBOutlet UITextField *responseTextField;
+@property (strong, nonatomic) IBOutlet UITextField *durationTextField;
+@property (strong, nonatomic) IBOutlet UITextField *codeTextField;
+@property (strong, nonatomic) IBOutlet UISlider *rateSlider;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *resultSegmentedControl;
 
 @end
 
@@ -23,17 +30,30 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[OpenLog shareInstance] onPageBegin:NSStringFromClass([self class])];
 }
-*/
-- (IBAction)dusmissAction:(id)sender {
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
+}
+- (IBAction)tapAction:(id)sender {
+    [self.view resignFirstResponder];
+}
+- (IBAction)doneAction:(id)sender {
+    OpenLogInterfaceMonitor *monitor = [[OpenLogInterfaceMonitor alloc] init];
+    monitor.interface = self.interfaceTextField.text;
+    monitor.requestSize = [self.requestTextField.text integerValue];
+    monitor.responseSize = [self.responseTextField.text integerValue];
+    monitor.duration = [self.durationTextField.text integerValue];
+    monitor.code = [self.codeTextField.text integerValue];
+    monitor.samplingRate = self.rateSlider.value;
+    monitor.resultType = self.resultSegmentedControl.selectedSegmentIndex;
+    [[OpenLog shareInstance] onMonitor:monitor];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)cancelAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

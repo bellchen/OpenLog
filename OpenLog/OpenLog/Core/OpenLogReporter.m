@@ -16,15 +16,16 @@
 #import "OpenLogJsonKit.h"
 #import "OpenLogReachability.h"
 NSString * const kOpenLogReporterErrorDomain = @"openlog.reporter.error";
-@interface OpenLogReporter ()
-@property (assign, nonatomic) dispatch_queue_t taskQueue;
+@interface OpenLogReporter (){
+    dispatch_queue_t taskQueue;
+}
 @end
 @implementation OpenLogReporter
 static OpenLogReporter *instance = nil;
 + (instancetype)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
+        instance = [super allocWithZone:zone];
     });
     return instance;
 }
@@ -42,6 +43,7 @@ static OpenLogReporter *instance = nil;
     if (!self) {
         return nil;
     }
+    taskQueue = dispatch_queue_create("OpenLogReporterQueue", NULL);
     return self;
 }
 #pragma mark - report log
@@ -69,7 +71,7 @@ static OpenLogReporter *instance = nil;
     if ([OpenLogConfigure shareInstance].reportBlock) {
         [OpenLogConfigure shareInstance].reportBlock(logContents);
     }
-    dispatch_async(self.taskQueue, ^{
+    dispatch_async(taskQueue, ^{
         @autoreleasepool {
             NSMutableString *jsonString = [[NSMutableString alloc] init];
             [jsonString appendString:@"["];
@@ -83,11 +85,14 @@ static OpenLogReporter *instance = nil;
             [jsonString appendString:@"]"];
             NSData *requestData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
             [self sendRequest:requestData complete:^(NSData *data, NSError *error) {
-                if (error || !data) {
+                if (error) {
                     if (completeBlock) {
                         completeBlock(NO);
                     }
                     return ;
+                }
+                if (!data) {
+                    return;
                 }
                 @try {
                     NSDictionary *onlineConfig = [data objectFromJson];
@@ -105,11 +110,17 @@ static OpenLogReporter *instance = nil;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     request.HTTPMethod = @"POST";
     NSString *url = [OpenLogConfigure shareInstance].reportUrl;
-    if (!url) {
+    void (^reportBlock)(NSArray<NSString*>*) = [OpenLogConfigure shareInstance].reportBlock;
+    if (!url && !reportBlock) {
         if (completeBlock) {
             completeBlock(nil,[NSError errorWithDomain:kOpenLogReporterErrorDomain code:999 userInfo:@{@"NSLocalizedDescription":@"reportUrl is nil"}]);
         }
         return ;
+    }
+    if (!url) {
+        if (completeBlock) {
+            completeBlock(nil, nil);
+        }
     }
     request.URL = [NSURL URLWithString:url];
     request.timeoutInterval = 10;
@@ -120,7 +131,7 @@ static OpenLogReporter *instance = nil;
     NSMutableData *body = nil;
     body = [NSMutableData dataWithData:requestData];
     NSString *cryptKey = [token stringByAppendingString:@"CuaVHKPhOyZdLi9XvMF16U"];
-    body = [body encryptWithKey:cryptKey];
+    body = [[body encryptWithKey:cryptKey] mutableCopy];
     if (!body) {
         if (completeBlock) {
             completeBlock(nil,[NSError errorWithDomain:kOpenLogReporterErrorDomain code:998 userInfo:@{@"NSLocalizedDescription":@"failed to encrypt body"}]);
@@ -140,8 +151,6 @@ static OpenLogReporter *instance = nil;
         }
     }
     request.HTTPBody = body;
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error || !data) {
             if (completeBlock) {
@@ -175,12 +184,12 @@ static OpenLogReporter *instance = nil;
     }];
     [task resume];
 }
-- (dispatch_queue_t)taskQueue{
-    if (!_taskQueue) {
-        _taskQueue = dispatch_queue_create("OpenLogReporterQueue", NULL);
-    }
-    return _taskQueue;
-}
+//- (dispatch_queue_t)taskQueue{
+//    if (!_taskQueue) {
+//        _taskQueue = dispatch_queue_create("OpenLogReporterQueue", NULL);
+//    }
+//    return _taskQueue;
+//}
 #pragma mark - ping
 - (OpenLogPingModel*)ping:(NSArray<NSString*>*)urlArray;{
     if (!urlArray ||

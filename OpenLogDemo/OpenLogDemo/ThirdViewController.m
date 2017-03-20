@@ -7,7 +7,7 @@
 //
 
 #import "ThirdViewController.h"
-
+#import "OpenLog.h"
 @interface ThirdViewController ()
 
 @end
@@ -22,6 +22,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[OpenLog shareInstance] onPageBegin:NSStringFromClass([self class])];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
 }
 
 /*

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-extern NSString * const OpenLog_Version;
+extern  NSString * _Nonnull const OpenLog_Version;
 typedef NS_ENUM(NSInteger, OpenLogReportStrategy) {
     OpenLogReportStrategyLaunch = 1,//启动时上报
     OpenLogReportStrategyBatch,//批量上报
@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
     OpenLogInterfaceResultTypeLogicFailure,//标记接口请求成功但返回内容逻辑失败
 };
 @interface OpenLogInterfaceMonitor : NSObject
-@property (copy, nonatomic) NSString *interface;//监控接口名
+@property (copy, nonatomic, nonnull) NSString *interface;//监控接口名
 @property (assign, nonatomic) NSInteger requestSize;//上行数据量，单位字节
 @property (assign, nonatomic) NSInteger responseSize;//下行数据量，单位字节
 @property (assign, nonatomic) NSInteger duration;//耗时，单位毫秒
@@ -44,11 +44,11 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 @property (assign, nonatomic) NSInteger logLengthMax;//单条日志最大长度，默认4096
 @property (assign, nonatomic) BOOL smartyEnable;//智能上报开关，wifi下实时上报，非wifi下遵循上报策略，默认YES
 @property (assign, nonatomic) BOOL wifiOnly;//仅wifi下上报数据，非wifi下存储，wifi下遵循上报策略，默认NO
-@property (copy, nonatomic) NSString *shortAppVersion;//默认统计CFBundleShortVersionString中的版本号（即与AppStore上一致的版本号）
-@property (copy, nonatomic) NSString *channel;//渠道号，默认appstore
-@property (copy, nonatomic) NSString *reportUrl;//post 数据提交的url
-@property (copy, nonatomic) void(^reportBlock)(NSArray<NSString*>*);
-+ (instancetype)shareInstance;
+@property (copy, nonatomic, nonnull) NSString *shortAppVersion;//默认统计CFBundleShortVersionString中的版本号（即与AppStore上一致的版本号）
+@property (copy, nonatomic, nonnull) NSString *channel;//渠道号，默认appstore
+@property (copy, nonatomic, nullable) NSString *reportUrl;//post 数据提交的url
+@property (copy, nonatomic, nullable) void(^reportBlock)(NSArray<NSString*> * _Nonnull contents);
++ (nullable instancetype)shareInstance;
 /**
  *  @method setGlobalValue:forKey:
  *  添加全局的字段，每条日志都带上
@@ -61,38 +61,39 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
  *  删除全局自定义字段
  */
 - (void)cleanAllGlobal;
-- (NSString*)onlineConfigForKey:(nonnull NSString*)key default:(nonnull NSString*)value;
+- (nonnull NSString*)onlineConfigForKey:(nonnull NSString*)key default:(nonnull NSString*)value;
 @end
 @interface OpenLog : NSObject
++ (nullable instancetype)shareInstance;
 - (void)startWithAppKey:(nonnull NSString*)appKey;
 - (void)startNewSession;
 - (void)endCurrentSession;
 - (void)reportLogs:(NSInteger)maxLogCount;
 
-- (void)onPageBegin:(NSString*)pageName;
-- (void)onPageEnd:(NSString*)pageName;
-- (void)logPage:(NSString*)pageName duration:(NSInteger)duration;
+- (void)onPageBegin:(nonnull NSString*)pageName;
+- (void)onPageEnd:(nonnull NSString*)pageName;
+- (void)logPage:(nonnull NSString*)pageName duration:(NSInteger)duration;
 
-- (void)onError:(NSString*)error;
-- (void)onException:(NSException*)exception;
+- (void)onError:(nonnull NSString*)error;
+- (void)onException:(nonnull NSException*)exception;
 
-- (void)onLog:(NSString*)logId;
-- (void)onLogBegin:(NSString*)logId;
-- (void)onLogEnd:(NSString*)logId;
-- (void)onLog:(NSString *)logId duration:(NSInteger)duration;
+- (void)onLog:(nonnull NSString*)logId;
+- (void)onLogBegin:(nonnull NSString*)logId;
+- (void)onLogEnd:(nonnull NSString*)logId;
+- (void)onLog:(nonnull NSString *)logId duration:(NSInteger)duration;
 
-- (void)onLog:(NSString*)logId args:(NSArray *)array;
-- (void)onLogBegin:(NSString *)logId args:(NSArray *)array;
-- (void)onLogEnd:(NSString *)logId args:(NSArray *)array;
-- (void)onLog:(NSString *)logId args:(NSArray *)array duration:(NSInteger)duration;
+- (void)onLog:(nonnull NSString*)logId args:(nonnull NSArray *)array;
+- (void)onLogBegin:(nonnull NSString *)logId args:(nonnull NSArray *)array;
+- (void)onLogEnd:(nonnull NSString *)logId args:(nonnull NSArray *)array;
+- (void)onLog:(nonnull NSString *)logId args:(nonnull NSArray *)array duration:(NSInteger)duration;
 
-- (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs;
-- (void)onLogBegin:(NSString *)logId kvs:(NSDictionary *)kvs;
-- (void)onLogEnd:(NSString *)logId kvs:(NSDictionary *)kvs;
-- (void)onLog:(NSString *)logId kvs:(NSDictionary *)kvs duration:(NSInteger)duration;
+- (void)onLog:(nonnull NSString *)logId kvs:(nonnull NSDictionary *)kvs;
+- (void)onLogBegin:(nonnull NSString *)logId kvs:(nonnull NSDictionary *)kvs;
+- (void)onLogEnd:(nonnull NSString *)logId kvs:(nonnull NSDictionary *)kvs;
+- (void)onLog:(nonnull NSString *)logId kvs:(nonnull NSDictionary *)kvs duration:(NSInteger)duration;
 
-- (void)onAddition:(NSDictionary*)additionInfo;
+- (void)onAddition:(nonnull NSDictionary*)additionInfo;
 
-- (void)onMonitor:(OpenLogInterfaceMonitor*)monitorModel;
+- (void)onMonitor:(nonnull OpenLogInterfaceMonitor*)monitorModel;
 
 @end

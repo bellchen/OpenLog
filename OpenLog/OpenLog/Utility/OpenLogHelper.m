@@ -35,7 +35,7 @@ static OpenLogHelper *instance = nil;
 + (instancetype)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
+        instance = [super allocWithZone:zone];
     });
     return instance;
 }
@@ -189,7 +189,7 @@ static OpenLogHelper *instance = nil;
         device.platform = [UIDevice currentDevice].systemName;
         if (([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)) {
             NSUUID *ifv = [UIDevice currentDevice].identifierForVendor;
-            device.ifv = ifv;
+            device.ifv = ifv.UUIDString;
         }
         if ([ASIdentifierManager sharedManager].isAdvertisingTrackingEnabled) {
             NSUUID *ifa = [ASIdentifierManager sharedManager].advertisingIdentifier;
