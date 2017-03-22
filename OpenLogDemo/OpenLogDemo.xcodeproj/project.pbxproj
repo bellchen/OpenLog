@@ -7,21 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F4BC1101E82C7300074D8D4 /* libOpenLog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F4BC10F1E82C7300074D8D4 /* libOpenLog.a */; };
 		6F882E7F1E8024DA009280E1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882E7E1E8024DA009280E1 /* libsqlite3.tbd */; };
 		6F882E811E802514009280E1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882E801E802514009280E1 /* libz.tbd */; };
 		6F882EA61E80345B009280E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882EA51E80345B009280E1 /* Security.framework */; };
 		6F882EA81E803463009280E1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882EA71E803463009280E1 /* CFNetwork.framework */; };
 		6F882EAA1E80346D009280E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882EA91E80346D009280E1 /* CoreTelephony.framework */; };
 		6F882EAC1E803484009280E1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F882EAB1E803484009280E1 /* SystemConfiguration.framework */; };
-		6F882EC41E804099009280E1 /* OpenLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EB11E804099009280E1 /* OpenLog.m */; };
-		6F882EC51E804099009280E1 /* OpenLogReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EB31E804099009280E1 /* OpenLogReporter.m */; };
-		6F882EC61E804099009280E1 /* OpenLogStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EB51E804099009280E1 /* OpenLogStorage.m */; };
-		6F882EC71E804099009280E1 /* OpenLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EB81E804099009280E1 /* OpenLogModel.m */; };
-		6F882EC81E804099009280E1 /* OpenLogAES128.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EBB1E804099009280E1 /* OpenLogAES128.m */; };
-		6F882EC91E804099009280E1 /* OpenLogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EBD1E804099009280E1 /* OpenLogHelper.m */; };
-		6F882ECA1E804099009280E1 /* OpenLogJsonKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EBF1E804099009280E1 /* OpenLogJsonKit.m */; };
-		6F882ECB1E804099009280E1 /* OpenLogReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EC11E804099009280E1 /* OpenLogReachability.m */; };
-		6F882ECC1E804099009280E1 /* OpenLogUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F882EC31E804099009280E1 /* OpenLogUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6F8E65B21E7EE1C400CD6C69 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B11E7EE1C400CD6C69 /* SecondViewController.m */; };
 		6F8E65B51E7EE1D300CD6C69 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B41E7EE1D300CD6C69 /* ThirdViewController.m */; };
 		6F8E65B81E7EE22F00CD6C69 /* ModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E65B71E7EE22F00CD6C69 /* ModelViewController.m */; };
@@ -34,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F4BC10F1E82C7300074D8D4 /* libOpenLog.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenLog.a; path = "../OpenLog/build/Debug-iphoneos/libOpenLog.a"; sourceTree = "<group>"; };
 		6F882E7E1E8024DA009280E1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6F882E801E802514009280E1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6F882E821E802CCC009280E1 /* libOpenLog.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenLog.a; path = "../../../../Library/Developer/Xcode/DerivedData/OpenLog-gnbatkaettjkcjavfhdvdhccbfaa/Build/Products/Debug-iphonesimulator/libOpenLog.a"; sourceTree = "<group>"; };
@@ -42,24 +35,6 @@
 		6F882EA71E803463009280E1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		6F882EA91E80346D009280E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		6F882EAB1E803484009280E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		6F882EB01E804099009280E1 /* OpenLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLog.h; sourceTree = "<group>"; };
-		6F882EB11E804099009280E1 /* OpenLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLog.m; sourceTree = "<group>"; };
-		6F882EB21E804099009280E1 /* OpenLogReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogReporter.h; sourceTree = "<group>"; };
-		6F882EB31E804099009280E1 /* OpenLogReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogReporter.m; sourceTree = "<group>"; };
-		6F882EB41E804099009280E1 /* OpenLogStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogStorage.h; sourceTree = "<group>"; };
-		6F882EB51E804099009280E1 /* OpenLogStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogStorage.m; sourceTree = "<group>"; };
-		6F882EB71E804099009280E1 /* OpenLogModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogModel.h; sourceTree = "<group>"; };
-		6F882EB81E804099009280E1 /* OpenLogModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogModel.m; sourceTree = "<group>"; };
-		6F882EBA1E804099009280E1 /* OpenLogAES128.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogAES128.h; sourceTree = "<group>"; };
-		6F882EBB1E804099009280E1 /* OpenLogAES128.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogAES128.m; sourceTree = "<group>"; };
-		6F882EBC1E804099009280E1 /* OpenLogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogHelper.h; sourceTree = "<group>"; };
-		6F882EBD1E804099009280E1 /* OpenLogHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogHelper.m; sourceTree = "<group>"; };
-		6F882EBE1E804099009280E1 /* OpenLogJsonKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogJsonKit.h; sourceTree = "<group>"; };
-		6F882EBF1E804099009280E1 /* OpenLogJsonKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogJsonKit.m; sourceTree = "<group>"; };
-		6F882EC01E804099009280E1 /* OpenLogReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogReachability.h; sourceTree = "<group>"; };
-		6F882EC11E804099009280E1 /* OpenLogReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogReachability.m; sourceTree = "<group>"; };
-		6F882EC21E804099009280E1 /* OpenLogUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLogUDID.h; sourceTree = "<group>"; };
-		6F882EC31E804099009280E1 /* OpenLogUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLogUDID.m; sourceTree = "<group>"; };
 		6F8E65B01E7EE1C400CD6C69 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		6F8E65B11E7EE1C400CD6C69 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		6F8E65B31E7EE1D300CD6C69 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
@@ -84,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F4BC1101E82C7300074D8D4 /* libOpenLog.a in Frameworks */,
 				6F882EAC1E803484009280E1 /* SystemConfiguration.framework in Frameworks */,
 				6F882EAA1E80346D009280E1 /* CoreTelephony.framework in Frameworks */,
 				6F882EA81E803463009280E1 /* CFNetwork.framework in Frameworks */,
@@ -96,60 +72,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F882EAE1E804099009280E1 /* OpenLog */ = {
-			isa = PBXGroup;
-			children = (
-				6F882EAF1E804099009280E1 /* Core */,
-				6F882EB61E804099009280E1 /* Model */,
-				6F882EB91E804099009280E1 /* Utility */,
-			);
-			name = OpenLog;
-			path = ../OpenLog/OpenLog;
-			sourceTree = "<group>";
-		};
-		6F882EAF1E804099009280E1 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				6F882EB01E804099009280E1 /* OpenLog.h */,
-				6F882EB11E804099009280E1 /* OpenLog.m */,
-				6F882EB21E804099009280E1 /* OpenLogReporter.h */,
-				6F882EB31E804099009280E1 /* OpenLogReporter.m */,
-				6F882EB41E804099009280E1 /* OpenLogStorage.h */,
-				6F882EB51E804099009280E1 /* OpenLogStorage.m */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		6F882EB61E804099009280E1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				6F882EB71E804099009280E1 /* OpenLogModel.h */,
-				6F882EB81E804099009280E1 /* OpenLogModel.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		6F882EB91E804099009280E1 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				6F882EBA1E804099009280E1 /* OpenLogAES128.h */,
-				6F882EBB1E804099009280E1 /* OpenLogAES128.m */,
-				6F882EBC1E804099009280E1 /* OpenLogHelper.h */,
-				6F882EBD1E804099009280E1 /* OpenLogHelper.m */,
-				6F882EBE1E804099009280E1 /* OpenLogJsonKit.h */,
-				6F882EBF1E804099009280E1 /* OpenLogJsonKit.m */,
-				6F882EC01E804099009280E1 /* OpenLogReachability.h */,
-				6F882EC11E804099009280E1 /* OpenLogReachability.m */,
-				6F882EC21E804099009280E1 /* OpenLogUDID.h */,
-				6F882EC31E804099009280E1 /* OpenLogUDID.m */,
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
 		6FFDB01B1E6F0718002553F0 = {
 			isa = PBXGroup;
 			children = (
-				6F882EAE1E804099009280E1 /* OpenLog */,
 				6FFDB0261E6F0718002553F0 /* OpenLogDemo */,
 				6FFDB0251E6F0718002553F0 /* Products */,
 				6FFDB03E1E6F077E002553F0 /* Frameworks */,
@@ -197,6 +122,7 @@
 		6FFDB03E1E6F077E002553F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F4BC10F1E82C7300074D8D4 /* libOpenLog.a */,
 				6F882EAB1E803484009280E1 /* SystemConfiguration.framework */,
 				6F882EA91E80346D009280E1 /* CoreTelephony.framework */,
 				6F882EA71E803463009280E1 /* CFNetwork.framework */,
@@ -284,19 +210,10 @@
 			files = (
 				6F8E65B21E7EE1C400CD6C69 /* SecondViewController.m in Sources */,
 				6F8E65B51E7EE1D300CD6C69 /* ThirdViewController.m in Sources */,
-				6F882EC91E804099009280E1 /* OpenLogHelper.m in Sources */,
-				6F882ECC1E804099009280E1 /* OpenLogUDID.m in Sources */,
-				6F882EC61E804099009280E1 /* OpenLogStorage.m in Sources */,
 				6FFDB02F1E6F0718002553F0 /* ViewController.m in Sources */,
-				6F882ECA1E804099009280E1 /* OpenLogJsonKit.m in Sources */,
-				6F882EC81E804099009280E1 /* OpenLogAES128.m in Sources */,
-				6F882ECB1E804099009280E1 /* OpenLogReachability.m in Sources */,
-				6F882EC51E804099009280E1 /* OpenLogReporter.m in Sources */,
 				6FFDB02C1E6F0718002553F0 /* AppDelegate.m in Sources */,
 				6F8E65B81E7EE22F00CD6C69 /* ModelViewController.m in Sources */,
 				6FFDB0291E6F0718002553F0 /* main.m in Sources */,
-				6F882EC71E804099009280E1 /* OpenLogModel.m in Sources */,
-				6F882EC41E804099009280E1 /* OpenLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
