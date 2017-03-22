@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, OpenLogInterfaceResultType) {
 - (void)startWithAppKey:(nonnull NSString*)appKey;
 - (void)startNewSession;
 - (void)endCurrentSession;
-- (void)reportLogs:(NSInteger)maxLogCount;
+- (void)reportLogs:(NSInteger)maxLogCount;//-1 for report all log
 
 - (void)onPageBegin:(nonnull NSString*)pageName;
 - (void)onPageEnd:(nonnull NSString*)pageName;

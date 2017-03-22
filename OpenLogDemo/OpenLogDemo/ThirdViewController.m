@@ -33,17 +33,26 @@
     [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (IBAction)backToIndexAction:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+- (IBAction)reportSleepLogAction:(id)sender {
+    [[OpenLog shareInstance] onLog:@"sleep" kvs:@{@"position":@"home",@"with":@"wife"}];
+}
+- (IBAction)reportSleepBeginLogAction:(id)sender {
+    [[OpenLog shareInstance] onLogBegin:@"sleep" kvs:@{@"position":@"home",@"with":@"wife"}];
+}
+- (IBAction)reportSleepEndLogAction:(id)sender {
+    [[OpenLog shareInstance] onLogEnd:@"sleep" kvs:@{@"position":@"home",@"with":@"wife"}];
+}
+- (IBAction)reportSleepLogWithTimeAction:(id)sender {
+    [[OpenLog shareInstance] onLog:@"sleep" kvs:@{@"position":@"home",@"with":@"wife"} duration:8*60*60];
+}
+- (IBAction)startANewSessionAction:(id)sender {
+    [[OpenLog shareInstance] startNewSession];
+}
+- (IBAction)reportAllLogAction:(id)sender {
+    [[OpenLog shareInstance] reportLogs:-1];
 }
 
 @end

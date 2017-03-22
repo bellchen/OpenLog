@@ -32,14 +32,22 @@
     [super viewWillDisappear:animated];
     [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)reportPlayLogAction:(id)sender {
+    [[OpenLog shareInstance] onLog:@"play" args:@[@"开心消消乐",@"王者荣耀"]];
 }
-*/
+
+- (IBAction)reportPlayBeginLogAction:(id)sender {
+    [[OpenLog shareInstance] onLogBegin:@"play" args:@[@"开心消消乐",@"王者荣耀"]];
+}
+- (IBAction)reportPlayEndLogAction:(id)sender {
+    [[OpenLog shareInstance] onLogEnd:@"play" args:@[@"开心消消乐",@"王者荣耀"]];
+}
+- (IBAction)reportLogWithPlayTimeAction:(id)sender {
+    [[OpenLog shareInstance]onLog:@"play" args:@[@"开心消消乐",@"王者荣耀"] duration:60*60];
+}
+- (IBAction)reportGameInfo:(id)sender {
+    NSDictionary *gameInfo = @{@"name":@"王者荣耀",@"score":@99};
+    [[OpenLog shareInstance] onAddition:gameInfo];
+}
 
 @end

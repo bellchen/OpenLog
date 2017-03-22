@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [[OpenLog shareInstance] startWithAppKey:@"aa"];
+    
 }
 
 
@@ -34,4 +34,29 @@
     [super viewWillDisappear:animated];
     [[OpenLog shareInstance] onPageEnd:NSStringFromClass([self class])];
 }
+- (IBAction)reportALogNamedReadAction:(id)sender {
+    [[OpenLog shareInstance] onLog:@"read"];
+}
+- (IBAction)reportABeginLogNamedReadAction:(id)sender {
+    [[OpenLog shareInstance] onLogBegin:@"read"];
+}
+- (IBAction)reportAnEndLogNamedReadAction:(id)sender {
+    [[OpenLog shareInstance] onLogEnd:@"read"];
+}
+- (IBAction)reportALogNamedReadSecondsAction:(id)sender {
+    [[OpenLog shareInstance] onLog:@"read" duration:3];
+}
+- (IBAction)reportAnExceptionAction:(id)sender {
+    @try {
+        @throw [[NSException alloc] initWithName:@"want to play" reason:@"reading is boring" userInfo:@{}];
+    } @catch (NSException *exception) {
+        [[OpenLog shareInstance] onException:exception];
+    } @finally {
+        
+    }
+}
+- (IBAction)reportAnErrorAction:(id)sender {
+    [[OpenLog shareInstance] onError:@"here is an error message, you can get it from NSError's userInfo"];
+}
+
 @end

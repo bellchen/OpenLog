@@ -36,7 +36,65 @@
                     <view key="view" contentMode="scaleToFill" id="uGZ-pk-V4Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QDy-ZF-m0r">
+                                <rect key="frame" x="77" y="134" width="220" height="30"/>
+                                <state key="normal" title="report a begin log named &quot;read&quot;"/>
+                                <connections>
+                                    <action selector="reportABeginLogNamedReadAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="n2c-DG-6fX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hJ-cB-ADd">
+                                <rect key="frame" x="80" y="184" width="216" height="30"/>
+                                <state key="normal" title="report an end log named &quot;read&quot;"/>
+                                <connections>
+                                    <action selector="reportAnEndLogNamedReadAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="tdh-bC-koC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cVn-nQ-mUq">
+                                <rect key="frame" x="57" y="234" width="261" height="30"/>
+                                <state key="normal" title="report a log named &quot;read&quot; in 3 second"/>
+                                <connections>
+                                    <action selector="reportALogNamedReadSecondsAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="Zj3-8a-0vn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Qh-EO-IaP">
+                                <rect key="frame" x="137" y="617" width="101" height="30"/>
+                                <state key="normal" title="report an Error"/>
+                                <connections>
+                                    <action selector="reportAnErrorAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="Rde-73-qz1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g6K-fC-ZeN">
+                                <rect key="frame" x="120" y="567" width="135" height="30"/>
+                                <state key="normal" title="report an Exception"/>
+                                <connections>
+                                    <action selector="reportAnExceptionAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="oDt-eb-LnB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBK-72-pIN">
+                                <rect key="frame" x="98" y="84" width="178" height="30"/>
+                                <state key="normal" title="report a log named &quot;read&quot;"/>
+                                <connections>
+                                    <action selector="reportALogNamedReadAction:" destination="bRu-ZK-SVf" eventType="touchUpInside" id="dWe-SO-8Iv"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="g6K-fC-ZeN" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="Cfs-ki-nTn"/>
+                            <constraint firstItem="cVn-nQ-mUq" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="EWi-0p-vwI"/>
+                            <constraint firstAttribute="bottom" secondItem="7Qh-EO-IaP" secondAttribute="bottom" constant="20" id="JHh-eU-JXI"/>
+                            <constraint firstItem="eBK-72-pIN" firstAttribute="top" secondItem="HnP-Dd-MJh" secondAttribute="bottom" constant="20" id="NyM-gW-efA"/>
+                            <constraint firstItem="QDy-ZF-m0r" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="Rvr-cu-t2A"/>
+                            <constraint firstItem="7Qh-EO-IaP" firstAttribute="top" secondItem="g6K-fC-ZeN" secondAttribute="bottom" constant="20" id="SzG-E9-Fmm"/>
+                            <constraint firstItem="cVn-nQ-mUq" firstAttribute="top" secondItem="5hJ-cB-ADd" secondAttribute="bottom" constant="20" id="Z08-7Z-FaW"/>
+                            <constraint firstItem="7Qh-EO-IaP" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="c9C-6d-RPf"/>
+                            <constraint firstItem="5hJ-cB-ADd" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="gIa-P0-iPr"/>
+                            <constraint firstItem="5hJ-cB-ADd" firstAttribute="top" secondItem="QDy-ZF-m0r" secondAttribute="bottom" constant="20" id="goe-LX-doz"/>
+                            <constraint firstItem="eBK-72-pIN" firstAttribute="centerX" secondItem="uGZ-pk-V4Z" secondAttribute="centerX" id="sYv-10-L34"/>
+                            <constraint firstItem="QDy-ZF-m0r" firstAttribute="top" secondItem="eBK-72-pIN" secondAttribute="bottom" constant="20" id="sqd-Jf-pRw"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZL6-lM-7hs">
                         <barButtonItem key="leftBarButtonItem" title="显示" id="Pfe-w5-GIq">
@@ -263,7 +321,56 @@
                     <view key="view" contentMode="scaleToFill" id="RmM-OJ-pWo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDN-tD-1VZ">
+                                <rect key="frame" x="67" y="84" width="242" height="30"/>
+                                <state key="normal" title="report a log named &quot;play&quot; with args"/>
+                                <connections>
+                                    <action selector="reportPlayLogAction:" destination="MzW-gl-qfM" eventType="touchUpInside" id="VcP-wh-TtU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xo4-qp-Vlp">
+                                <rect key="frame" x="46" y="134" width="284" height="30"/>
+                                <state key="normal" title="report a begin log named &quot;play&quot; with args"/>
+                                <connections>
+                                    <action selector="reportPlayBeginLogAction:" destination="MzW-gl-qfM" eventType="touchUpInside" id="LhK-Hy-jkv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UiH-18-Qw9">
+                                <rect key="frame" x="47" y="184" width="280" height="30"/>
+                                <state key="normal" title="report an end log named &quot;play&quot; with args"/>
+                                <connections>
+                                    <action selector="reportPlayEndLogAction:" destination="MzW-gl-qfM" eventType="touchUpInside" id="xgR-M0-CJb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHS-I2-jMc">
+                                <rect key="frame" x="35" y="234" width="304" height="30"/>
+                                <state key="normal" title="report a log named &quot;play&quot; in 1 hour with args"/>
+                                <connections>
+                                    <action selector="reportLogWithPlayTimeAction:" destination="MzW-gl-qfM" eventType="touchUpInside" id="4t3-2K-sBY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9L-6V-taa">
+                                <rect key="frame" x="117" y="617" width="141" height="30"/>
+                                <state key="normal" title="report the game info"/>
+                                <connections>
+                                    <action selector="reportGameInfo:" destination="MzW-gl-qfM" eventType="touchUpInside" id="q6v-mV-ZlX"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="d9L-6V-taa" firstAttribute="centerX" secondItem="RmM-OJ-pWo" secondAttribute="centerX" id="H15-NE-aGA"/>
+                            <constraint firstItem="ZHS-I2-jMc" firstAttribute="top" secondItem="UiH-18-Qw9" secondAttribute="bottom" constant="20" id="H7L-Xv-eNq"/>
+                            <constraint firstItem="Xo4-qp-Vlp" firstAttribute="top" secondItem="gDN-tD-1VZ" secondAttribute="bottom" constant="20" id="HaA-0S-LFJ"/>
+                            <constraint firstItem="gDN-tD-1VZ" firstAttribute="top" secondItem="Vpg-Fl-NeM" secondAttribute="bottom" constant="20" id="LLA-hC-AuK"/>
+                            <constraint firstItem="UiH-18-Qw9" firstAttribute="centerX" secondItem="RmM-OJ-pWo" secondAttribute="centerX" id="Ni3-sy-W0R"/>
+                            <constraint firstItem="Xo4-qp-Vlp" firstAttribute="centerX" secondItem="RmM-OJ-pWo" secondAttribute="centerX" id="Xee-wX-Kws"/>
+                            <constraint firstItem="ZHS-I2-jMc" firstAttribute="centerX" secondItem="RmM-OJ-pWo" secondAttribute="centerX" id="Xwz-kx-5tC"/>
+                            <constraint firstItem="gDN-tD-1VZ" firstAttribute="centerX" secondItem="RmM-OJ-pWo" secondAttribute="centerX" id="hNA-Zq-oOH"/>
+                            <constraint firstAttribute="bottom" secondItem="d9L-6V-taa" secondAttribute="bottom" constant="20" id="iff-ep-thT"/>
+                            <constraint firstItem="UiH-18-Qw9" firstAttribute="top" secondItem="Xo4-qp-Vlp" secondAttribute="bottom" constant="20" id="wLn-Zs-qlP"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5FX-WW-we4">
                         <barButtonItem key="rightBarButtonItem" title="下一页" id="FEw-yU-f1J">
@@ -288,7 +395,65 @@
                     <view key="view" contentMode="scaleToFill" id="QHb-Ie-wGt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waq-1O-BfG">
+                                <rect key="frame" x="65.5" y="84" width="244" height="30"/>
+                                <state key="normal" title="report a log named &quot;sleep&quot; with kvs"/>
+                                <connections>
+                                    <action selector="reportSleepLogAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="HZr-nw-Oo0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ne0-eO-LFd">
+                                <rect key="frame" x="44.5" y="134" width="286" height="30"/>
+                                <state key="normal" title="report a begin log named &quot;sleep&quot; with kvs"/>
+                                <connections>
+                                    <action selector="reportSleepBeginLogAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="Pzy-Ol-qYh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzQ-8R-Eno">
+                                <rect key="frame" x="46.5" y="184" width="282" height="30"/>
+                                <state key="normal" title="report an end log named &quot;sleep&quot; with kvs"/>
+                                <connections>
+                                    <action selector="reportSleepEndLogAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="AaQ-gr-OqJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tny-Qb-Znv">
+                                <rect key="frame" x="29.5" y="234" width="316" height="30"/>
+                                <state key="normal" title="report a log named &quot;sleep&quot; in 8 hours with kvs"/>
+                                <connections>
+                                    <action selector="reportSleepLogWithTimeAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="gby-ds-F2A"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dc5-Nf-Uzy">
+                                <rect key="frame" x="122" y="567" width="132" height="30"/>
+                                <state key="normal" title="start a new session"/>
+                                <connections>
+                                    <action selector="startANewSessionAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="o0g-os-Mee"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s05-zW-gp4">
+                                <rect key="frame" x="109.5" y="617" width="156" height="30"/>
+                                <state key="normal" title="report all log by myself"/>
+                                <connections>
+                                    <action selector="reportAllLogAction:" destination="43o-Bj-sQD" eventType="touchUpInside" id="ZOL-Kv-7d4"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="s05-zW-gp4" secondAttribute="bottom" constant="20" id="1OH-zi-oWa"/>
+                            <constraint firstItem="Dc5-Nf-Uzy" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="92j-24-5f7"/>
+                            <constraint firstItem="Ne0-eO-LFd" firstAttribute="top" secondItem="waq-1O-BfG" secondAttribute="bottom" constant="20" id="9UT-Er-wCf"/>
+                            <constraint firstItem="Ne0-eO-LFd" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="AnQ-nm-1vm"/>
+                            <constraint firstItem="YzQ-8R-Eno" firstAttribute="top" secondItem="Ne0-eO-LFd" secondAttribute="bottom" constant="20" id="bo4-LX-1YR"/>
+                            <constraint firstItem="Tny-Qb-Znv" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="bx7-4u-8H3"/>
+                            <constraint firstItem="Tny-Qb-Znv" firstAttribute="top" secondItem="YzQ-8R-Eno" secondAttribute="bottom" constant="20" id="djP-f8-BZG"/>
+                            <constraint firstItem="waq-1O-BfG" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="eY2-2u-jb5"/>
+                            <constraint firstItem="s05-zW-gp4" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="fwg-87-WyB"/>
+                            <constraint firstItem="s05-zW-gp4" firstAttribute="top" secondItem="Dc5-Nf-Uzy" secondAttribute="bottom" constant="20" id="jzX-mW-vAp"/>
+                            <constraint firstItem="YzQ-8R-Eno" firstAttribute="centerX" secondItem="QHb-Ie-wGt" secondAttribute="centerX" id="lCb-FJ-AeH"/>
+                            <constraint firstItem="waq-1O-BfG" firstAttribute="top" secondItem="1hR-GO-iaF" secondAttribute="bottom" constant="20" id="sGd-l5-q1q"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5qK-fq-tHz">
                         <barButtonItem key="rightBarButtonItem" title="回到首页" id="FVW-oj-XaA">
